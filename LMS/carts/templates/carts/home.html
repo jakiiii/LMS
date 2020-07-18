@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} {{ title }} || {{ block.super }}{% endblock title %}
+
+
+{% block content %}
+
+<div class="page-section border-bottom-2">
+    <div class="container page__container">
+        <div>
+            <h2>CART HOME</h2>
+        </div>
+            <div class="row">
+               <div class="col-md-9">
+                  <div class="cart-items">
+                    {% if cart.episode.exists %}
+                     <table class="table table-striped table-style">
+                        <thead>
+                           <tr>
+                              <th scope="col">Image</th>
+                              <th scope="col">Episode Name</th>
+                              <th scope="col">Professor</th>
+                              <th scope="col">Lesson</th>
+                              <th scope="col">Series</th>
+                              <th scope="col">Episode Price</th>
+                              <th scope="col">Remove</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                            {% for ep in cart.episode.all %}
+                           <tr>
+                              <td>
+                                <a href="#">
+                                    <img src="{{ ep.lesson_of.course_image.url }}" alt="Age Of Wisdom Tan Graphic Tee" title="" width="47" height="47">
+                                </a>
+                              </td>
+                              <td><a href="{{ ep.lesson_of.get_absolute_url }}">{{ ep.title }}</a></td>
+                              <td><a href="{{ ep.episode_instructor.get_absolute_url }}">{{ ep.episode_instructor }}</a></td>
+                              <td><a href="#">{{ ep.lesson_of }}</a></td>
+                              <td><a href="#">{{ ep.series_of }}</a></td>
+                              <td>$ {{ ep.price }}</td>
+                              <td>{% include 'carts/snippets/remove_cart_episode.html' with ep_id=ep.id %}</td>
+                           </tr>
+                           {% endfor %}
+                        </tbody>
+                     </table>
+                     {% endif %}
+                  </div>
+               </div>
+               <div class="col-md-3">
+                  <div class="cart-sum mt-4">
+                     <p class="cart-details">Total <span  style="float:right"> $ {{ cart.subtotal }}</span></p>
+                     <p class=" ft">Vat <span class="ft" style="float:right">$ 5</span></p>
+                     <hr>
+                     <p class="cart-details">Sub Total <span  style="float:right">$ {{ cart.total }}</span></p>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="tos">
+                        <label class="form-check-label" for="tos">
+                        I agree to <a href="#">Terms & Conditons</a>
+                        </label>
+                          <a href="{% url 'checkout' %}" class="btn btn-primary center-block mt-3"> Proceed To Checkout </a> 
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      
+</div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% load static %}
+{% url 'index' as index_url %}
+{% url 'courses' as courses_url %}
+{% url 'pricing-view' as pricing_url %}
+{% url 'episode-cart' as cart_episode_url %}
+{% url 'logout' as logout_url %}
+
+
+<div class="navbar navbar-expand navbar-light bg-white navbar-shadow mdk-header--fixed mdk-header--shadow"
+     id="default-navbar" data-primary>
+     <div class="container page__container">
+
+    <ul class="nav navbar-nav d-none d-sm-flex flex justify-content-start ml-8pt">
+        <li class="nav-item active">
+            <a href="{{ index_url }}" class="nav-link">Home</a>
+        </li>
+        <li class="nav-item ">
+            <a href="{{ courses_url }}" class="nav-link">Lessons</a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ pricing_url }}" class="nav-link">Pricing</a>
+        </li>
+    </ul>
+
+
+    <ul class="nav navbar-nav ml-auto mr-0">
+        <li class="nav-item {% if request.path == cart_episode_url %}active{% endif %}">
+            <a href="{{ cart_episode_url }}" class="nav-link"><span class="cart-count">{{ request.session.cart_items }}</span> <span class="material-icons notranslate">shopping_cart</span></a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ logout_url }}" class="btn  btn-outline-secondary">Logout</a>
+        </li>
+    </ul>
+    </div>
+</div>

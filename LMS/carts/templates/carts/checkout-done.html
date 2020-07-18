@@ -1,0 +1,117 @@
+
+{% extends 'base.html' %}
+{% block title %}{{title}} || {{ block.super }}{% endblock title %}
+{% block content %}
+{% load static %}
+
+<div class="page-section border-bottom-2">
+    <div class="container page__container">
+        <div class="py-4 mx-auto text-center">
+            <h2 class="display-4">Your payment is successfully complete</h2>
+            <h3>You can learn now...</h3>
+            <a href="{% url 'student-lessons' %}" class="btn btn-primary">My Lesson</a>
+        </div>
+        <div class="invoice-box ">
+	<div class="print-content">
+		<table cellpadding="0" cellspacing="0">
+       <tr class="top">
+           <td colspan="2">
+               <table>
+                   <tr>
+                       <td class="title">
+                          <img src="{% static 'assets/images/paths/angular_40x40.png' %}" width="50px" height="50px" alt="logo" />
+                       </td>
+
+                       <td>
+                           Invoice #: {{invoice_data.0.invoice_number}} <br>
+                           Created: {{invoice_data.0.issue_date}}<br>
+                           Vat Reg: {{company_details.vat_registration_number}}
+
+                       </td>
+                   </tr>
+               </table>
+           </td>
+       </tr>
+       <tr>
+
+       </tr>
+
+       <tr class="information">
+           <td colspan="2">
+               <table>
+                   <tr>
+                       <td>
+                           {{company_details.company_name}}<br>
+                          {{company_details.company_address}}<br>
+                       </td>
+
+                       <td>
+                           {{user.first_name}} {{user.last_name}}<br>
+                           {{user.email}}
+                       </td>
+                   </tr>
+               </table>
+           </td>
+       </tr>
+
+
+       <tr class="heading">
+           <td>
+               Item
+           </td>
+
+           <td>
+               Price
+           </td>
+
+       </tr>
+
+        {%for item in invoice_data %}
+            <tr class="item">
+           <td>
+              {{item.episode_id__title}}
+           </td>
+
+           <td>
+               ${{item.subtotal}}
+           </td>
+       </tr>
+        {% endfor %}
+
+       <tr >
+
+         <td></td>
+
+         <td>
+            Total: ${{total}}
+         </td>
+     </tr>
+       <tr >
+
+         <td></td>
+
+         <td>
+            Vat: {{vat}}%
+         </td>
+     </tr>
+       <tr class="total">
+           <td></td>
+
+           <td>
+             Sub Total: ${{subtotal}}
+           </td>
+       </tr>
+       <tr >
+           <td>
+               Payment Method : Stripe
+           </td>
+
+
+       </tr>
+    	</table>
+	</div>
+    <button onclick="window.print()">Print this page</button>
+</div>
+    </div>
+</div>
+{% endblock %}

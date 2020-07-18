@@ -1,0 +1,23 @@
+<form class="form-lesson-ajax" method="POST" action="{% url 'episode-cart-update' %}" data-endpoint="{% url 'episode-cart-update' %}">{% csrf_token %}
+    <input type="hidden" name="episode" value="{{ episode.id }}"/>
+    <span class="submit-span">
+        {% if episode in cart.episode.all %}
+        <button type="submit" style="background: #fff; border: none; margin: -10px;"><i class="material-icons notranslate color-red icon--left">remove_shopping_cart</i></button>
+        {% else %}
+        <button type="submit" style="background: #fff; border: none; margin: -10px;"><i class="material-icons notranslate color-red icon--left">shopping_cart</i></button>
+        {% endif %}
+    </span>
+</form>
+
+
+
+<!--<form class="form-lesson-ajax" method="POST" action="{% url 'episode-cart-update' %}" data-endpoint="{% url 'episode-cart-update' %}">{% csrf_token %}-->
+    <!--<input type="hidden" name="episode" value="{{ episode.id }}"/>-->
+    <!--{% if episode in cart.episode.all %}-->
+    <!--<button type="submit" style="background: #fff; border: none; margin: -10px;">-->
+        <!--<i class="material-icons notranslate color-red icon&#45;&#45;left">remove_shopping_cart</i></button>-->
+    <!--{% else %}-->
+    <!--<button type="submit" style="background: #fff; border: none; margin: -10px;">-->
+        <!--<i class="material-icons notranslate color-red icon&#45;&#45;left">shopping_cart</i></button>-->
+    <!--{% endif %}-->
+<!--</form>-->

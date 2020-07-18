@@ -1,0 +1,99 @@
+{% load static %}
+{% url 'index' as index_url %}
+{% url 'login' as login_url %}
+{% url 'register' as signup_url %}
+{% url 'courses' as courses_url %}
+{% url 'pricing-view' as pricing_url %}
+{% url 'all-professor' as all_professor_url %}
+
+{% url 'instructor-dashboard' as instructor_dashboard_url %}
+{% url 'episode-cart' as cart_episode_url %}
+{% url 'logout' as logout_url %}
+
+
+<div class="navbar navbar-expand navbar-light bg-white navbar-shadow mdk-header--fixed mdk-header--shadow"
+     id="default-navbar" data-primary>
+     <div class="container page__container">
+    <!-- Navbar toggler -->
+    <!--<button class="navbar-toggler w-auto mr-16pt d-block rounded-0" type="button" data-toggle="sidebar">-->
+        <!--<span class="material-icons notranslate notranslate">short_text</span>-->
+    <!--</button>-->
+
+    <!-- Navbar Brand -->
+     {% for header_info in header_context %}
+    <a href="{{ index_url }}" class="navbar-brand mr-16pt">
+        <!-- <img class="navbar-brand-icon" src="assets/images/logo/white-100@2x.png" width="30" alt="Duma"> -->
+
+        <span class="avatar avatar-sm navbar-brand-icon mr-0 mr-lg-8pt">
+            <span class="avatar-title rounded bg-primary">
+                {% if header_info.logo %}
+                <img src="{{ header_info.logo.url }}" alt="{{ header_info.header_title }}"  class="img-fluid"/>
+                {% else %}
+                <img src="https://as1.ftcdn.net/jpg/00/97/00/00/500_F_97000073_qnDFUJdLGmxr3sIXe0CHv0MT1LbYuQKb.jpg" alt="logo"  class="img-fluid"/>
+                {% endif %}
+            </span>
+        </span>
+        <span class="d-none d-lg-block">{{ header_info.header_title }}</span>
+    </a>
+     {% endfor %}
+
+    <ul class="nav navbar-nav d-none d-sm-flex flex justify-content-start ml-8pt">
+        <li class="nav-item {% if request.path == index_url %}active{% endif %}">
+            <a href="{{ index_url }}" class="nav-link">Home</a>
+        </li>
+        <li class="nav-item {% if request.path == courses_url %}active{% endif %}">
+            <a href="{{ courses_url }}" class="nav-link">Lessons</a>
+        </li>
+        <li class="nav-item {% if request.path == pricing_url %}active{% endif %}">
+            <a href="{{ pricing_url }}" class="nav-link">Pricing</a>
+        </li>
+        <li class="nav-item {% if request.path == all_professor_url %}active{% endif %}">
+            <a href="{{ all_professor_url }}" class="nav-link">Professor</a>
+        </li>
+        {% if request.user.is_authenticated %}
+        <li class="nav-item">
+            <a href="{% url 'student-dashboard' %}" class="nav-link">Dashboard</a>
+        </li>
+        {% endif %}
+    </ul>
+
+    <!--<form class="search-form form-control-rounded navbar-search d-none d-lg-flex mr-16pt" action="#" style="max-width: 230px">-->
+        <!--<button class="btn" type="submit"><i class="material-icons notranslate notranslate">search</i></button>-->
+        <!--<input type="text" class="form-control" placeholder="Search ...">-->
+    <!--</form>-->
+
+
+    <ul class="nav navbar-nav ml-auto mr-0">
+        <li class="nav-item {% if request.path == cart_episode_url %}active{% endif %}">
+            <a href="{{ cart_episode_url }}" class="nav-link"><span class="cart-count">{{ request.session.cart_items }}</span> <span class="material-icons notranslate notranslate notranslate color-red">shopping_cart</span></a>
+            <!--{% if request.session.cart_items == 0 %}-->
+            <!--<a href="{{ cart_episode_url }}" class="nav-link"><span class="material-icons notranslate notranslate">shopping_cart</span></a>-->
+            <!--{% else %}-->
+            <!--<a href="{{ cart_episode_url }}" class="nav-link"><span class="cart-count">{{ request.session.cart_items }}</span> <span class="material-icons notranslate notranslate">shopping_cart</span></a>-->
+            <!--{% endif %}-->
+        </li>
+        {% if not request.user.is_authenticated %}
+        <li class="nav-item {% if request.path == login_url %}active{% endif %}">
+            <a href="{{ login_url }}" class="nav-link" data-toggle="tooltip" data-title="Student Login"
+               data-placement="bottom" data-boundary="window"><i class="material-icons notranslate notranslate">lock_open</i></a>
+        </li>
+        <li class="nav-item {% if request.path == signup_url %}active{% endif %}">
+            <a href="{{ signup_url }}" class="btn  btn-outline-secondary">Get Started</a>
+        </li>
+        {% endif %}
+        <li class="nav-item">
+            <div class="btn" id="google_translate_element"></div>
+            <script type="text/javascript">
+            function googleTranslateElementInit() {
+              new google.translate.TranslateElement({pageLanguage: '', includedLanguages: 'en,en,it', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, autoDisplay: false}, 'google_translate_element');
+              var removePopup = document.getElementById('goog-gt-tt');
+                removePopup.parentNode.removeChild(removePopup);
+            }
+            </script>
+            <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+
+        </li>
+    </ul>
+    </div>
+</div>

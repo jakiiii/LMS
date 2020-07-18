@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} {{ title }} || {{ block.super }}{% endblock title %}
+{% load static %}
+
+
+{% block content %}
+
+
+<div class="page-section bg-alt border-bottom-2">
+    <div class="container page__container">
+        <div class="row">
+		<div class="col-md-8">
+			<div class="p-card">
+				<div class="row">
+					<div class="col-md-4">
+						<div class="profile">
+					<img src="{{ instructor_object.image.url }}" alt="">
+
+					</div>
+					</div>
+					<div class="col-md-4">
+						<div class="title">
+						<h3 class="mt-3 mb-3">{{ instructor_object.first_name }} {{ instructor_object.last_name }}</h3>
+						<!--<span class="fa fa-star checked"></span>-->
+						<!--<span class="fa fa-star checked"></span>-->
+						<!--<span class="fa fa-star checked"></span>-->
+						<!--<span class="fa fa-star"></span>-->
+						<!--<span class="fa fa-star"></span>-->
+						<!--<span><a class="pc" href="#">17 Reviews</a></span>-->
+						<p class="mt-3">{{ instructor_object.address }}</p>
+						<button class="btn btn-light btn-sm mt-4"> <i class="fa fa-heart-o"></i> Professor Profile</button>
+					</div>
+					</div>
+					<div class="col-md-4 p-right">
+						<p style="margin-bottom: 5px !important;" class="pc mt-3 mb-4 ">Teaching Location:</p>
+
+						<p> <i class="fa fa-map-marker"></i>  {{ instructor_object.address_office }}</p>
+
+					</div>
+				</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="p-details">
+				   				<ul class="nav nav-tabs">
+								    <li class="active"><a data-toggle="tab" href="#Bio">About</a></li>
+								    <li><a data-toggle="tab" href="#reviews">Biography</a></li>
+								    <!--<li><a data-toggle="tab" href="#media">Photos & Media</a></li>-->
+
+							     </ul>
+
+							  <div class="tab-content">
+							    <div id="Bio" class="tab-pane fade in active show">
+                                   <p style="padding: 10px;"> {{ instructor_object.short_bio | safe }}</p>
+							    </div>
+
+							    <div id="reviews" class="tab-pane fade">
+									<p style="padding: 10px;">{{ instructor_object.long_bio | safe }}</p>
+							    </div>
+
+							    <!--<div id="media" class="tab-pane fade">-->
+							     	<!--<div class="row">-->
+							    		<!--<div class="col-md-6">-->
+							    			<!--<p class="pc mt-4">Level Taughts <span style="color:black"> <br> Intermidiate , Expert</span></p>-->
+							    		<!--</div>-->
+							    		<!--<div class="col-md-6">-->
+							    			<!--<button  class="btn btn-info button-outline btn-sm mt-4 pull-right">Ask Diana a question</button>-->
+							    		<!--</div>-->
+							    	<!--</div>-->
+
+							    	<!--<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita cupiditate, placeat nam maiores! Sapiente est officiis neque doloribus reprehenderit voluptatibus debitis, ut blanditiis quam, doloremque mollitia iste. Magnam, reprehenderit commodi?</p>-->
+
+							    	<!--<br>-->
+
+							    	<!--<h3>About Diana G.</h3>-->
+							    	<!--<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere hic quae quam iure autem voluptas, dolorem natus harum consequatur impedit ducimus mollitia possimus magni commodi illo dolores doloremque dignissimos repudiandae.</p>-->
+							    <!--</div>-->
+
+							  </div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+
+			</div>
+				<div class="col-md-4">
+
+					  <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+					  <div class="panel">
+					    <div class="panel-heading active" role="tab" id="headingOne">
+					  
+							<h3 class="mt-3 mb-3">
+							<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+							Experience <hr/>
+							</a>
+							</h3>
+					     
+					    </div>
+					    <div id="collapseOne" class="panel-collapse collapse in show" role="tabpanel" aria-labelledby="headingOne">
+					      {% for experience in experience_context %}
+							<div class="panel-body">
+							  <h4>{{ experience.title }}</h4>
+						       <p>{{ experience.experience_description }}</p>
+							  <div style="margin-top: 0.5rem;">
+							  	<p><b>{{ experience.ex_period }}</b> To <b>{{ experience.ex_end_period }}</b></p>
+							  </div>
+					      </div>
+							{% endfor %}
+					    </div>
+					  </div>
+
+					  <div class="panel">
+					    <div class="panel-heading active " role="tab" id="headingTwo">
+							<h3 class="mt-3 mb-3">
+					        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+					          Education  <hr/>
+					        </a>
+						</h3>
+					    </div>
+					    <div id="collapseTwo" class="panel-collapse collapse in show" role="tabpanel" aria-labelledby="headingTwo">
+					      <div class="panel-body">
+						       <p><b>School:</b> {{ instructor_object.school | safe }}</p>
+						       <p><b>College:</b> {{ instructor_object.college | safe }}</p>
+						       <p><b>University:</b> {{ instructor_object.university | safe }}</p>
+						       <p><b>PHD:</b> {{ instructor_object.phd | safe }}</p>
+					      </div>
+					    </div>
+					  </div>
+					  <div class="panel">
+					    <div class="panel-heading active" role="tab" id="headingthree">
+							<h3 class="mt-3 mb-3">
+					        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapsethree" aria-expanded="true" aria-controls="collapsethree">
+					          Language  <hr/>
+					        </a>
+					      <h3>
+					    </div>
+					    <div id="collapsethree" class="panel-collapse collapse in show" role="tabpanel" aria-labelledby="headingthree">
+					      <div class="panel-body">
+						       {% for language in instructor_object.language.all %}
+                                    <p><b>{{language}}</b></p>
+                               {% endfor %}
+					      </div>
+					    </div>
+					  </div>
+					 <div class="panel">
+					    <div class="panel-heading active " role="tab" id="headingfour">
+							<h3 class="mt-3 mb-3">
+					        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+					          Certification  <hr/>
+					        </a>
+						</h3>
+					    </div>
+					    <div id="collapseFour" class="panel-collapse collapse in show" role="tabpanel" aria-labelledby="headingfour">
+					      {% for certification in certification_context %}
+							<div class="panel-body">
+								<h4>{{ certification.title }}</h4>
+								<p>{{ certification.certification_description }}</p>
+								<div style="margin-top: 0.5rem;">
+									<p><b>{{ certification.period }}</b> To <b>{{ certification.ex_end_period }}</b></p>
+								</div>
+					      </div>
+							{% endfor %}
+					    </div>
+					  </div>
+					</div>
+				</div>
+		</div>
+	</div>
+    </div>
+</div>
+
+<script type="text/javascript">
+		 $('.panel-collapse').on('show.bs.collapse', function () {
+    $(this).siblings('.panel-heading').addClass('active');
+  });
+
+  $('.panel-collapse').on('hide.bs.collapse', function () {
+    $(this).siblings('.panel-heading').removeClass('active');
+  });
+	</script>
+{% endblock %}}

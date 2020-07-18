@@ -1,0 +1,237 @@
+{% load static %}
+{% url 'instructor-dashboard' as instructor_dashboard %}
+{#{% url 'instructor-blog' as instructor_blog %}#}
+{% url 'instructor-courses' as instructor_courses %}
+{% url 'manage-lesson' as manage_lesson_url %}
+{% url 'manage-episode' as manage_episode_url %}
+{% url 'instructor-manage' as instructor_manage_url %}
+
+{% url 'education-manage' as education_manage_url %}
+{% url 'certification-manage' as certification_manage_url %}
+{% url 'experience-manage' as experience_manage_url %}
+
+{% url 'manage-student-admin' as manage_student_admin_url %}
+
+{% url 'category_professor' as category_professor_url %}
+{% url 'top_sales_videos_professor' as top_sales_videos_professor_url %}
+{% url 'top_paid_videos_professor' as top_paid_videos_professor_url %}
+{% url 'top_private_lesson_contact_professor' as top_private_lesson_contact_professor_url %}
+{% url 'top_viewing_professor' as top_viewing_professor_url %}
+{% url 'top_self_professor' as top_self_professor_url %}
+{% url 'fewer_videos_professor' as fewer_videos_professor_url %}
+{% url 'sales' as sales_url %}
+{% url 'series_wise_sales_report' as series_wise_sales_report_url %}
+{% url 'professor_wise_sales_report' as professor_wise_sales_report_url %}
+{% url 'company-settings' as company_settings_url %}
+
+{% url 'message-admin-inbox' as message_admin_inbox_url %}
+{% url 'message-admin-send' as message_admin_send_url %}
+
+
+<div class="mdk-drawer js-mdk-drawer" id="default-drawer">
+    <div class="mdk-drawer__content">
+        <div class="sidebar sidebar-dark-dodger-blue sidebar-left" data-perfect-scrollbar>
+
+
+            <div class="d-flex align-items-center navbar-height">
+                <form action="index.html" class="search-form search-form--black mx-16pt pr-0 pl-16pt">
+                    <input type="text" class="form-control pl-0" placeholder="Search">
+                    <button class="btn" type="submit"><i class="material-icons notranslate">search</i></button>
+                </form>
+            </div>
+
+
+            <a href="{% url 'index' %}" class="sidebar-brand ">
+                <!-- <img class="sidebar-brand-icon" src="assets/images/illustration/teacher/128/white.svg" alt="Jtro"> -->
+
+                <span class="avatar avatar-xl sidebar-brand-icon h-auto">
+
+                            <span class="avatar-title rounded bg-primary"><img
+                                    src="https://as1.ftcdn.net/jpg/00/97/00/00/500_F_97000073_qnDFUJdLGmxr3sIXe0CHv0MT1LbYuQKb.jpg"
+                                    class="img-fluid"
+                                    alt="logo"/></span>
+
+                        </span>
+                <span>Jtro</span>
+            </a>
+
+
+            <div class="sidebar-heading">Administrator</div>
+            <ul class="sidebar-menu">
+
+
+                <li class="sidebar-menu-item {% if request.path == instructor_dashboard %}active{% endif %}">
+                    <a class="sidebar-menu-button" href="{{ instructor_dashboard }}">
+                        <span class="material-icons notranslate sidebar-menu-icon sidebar-menu-icon--left">school</span>
+                        <span class="sidebar-menu-text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item {% if request.path == company_settings_url %}active{% endif %}">
+                    <a class="sidebar-menu-button" href="{% url 'settings' %}">
+                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">table_rows</span>
+                        <span class="sidebar-menu-text">Company Settings</span>
+                    </a>
+                </li>
+{#                <li class="sidebar-menu-item {% if request.path == instructor_blog %}active{% endif %}">#}
+{#                    <a class="sidebar-menu-button" href="{{ instructor_blog }}">#}
+{#                        <span class="material-icons notranslate sidebar-menu-icon sidebar-menu-icon--left">import_contacts</span>#}
+{#                        <span class="sidebar-menu-text">Blog</span>#}
+{#                    </a>#}
+{#                </li>#}
+                <li class="sidebar-menu-item {% if request.path == instructor_courses %}active{% endif %}">
+                    <a class="sidebar-menu-button" href="{{ instructor_courses }}">
+                        <span class="material-icons notranslate sidebar-menu-icon sidebar-menu-icon--left">import_contacts</span>
+                        <span class="sidebar-menu-text">Lessons</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item {% if request.path == manage_lesson_url %}active{% endif %}">
+                    <a class="sidebar-menu-button" href="{{ manage_lesson_url }}">
+                        <span class="material-icons notranslate sidebar-menu-icon sidebar-menu-icon--left">import_contacts</span>
+                        <span class="sidebar-menu-text">Series</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item {% if request.path == manage_episode_url %}active{% endif %}">
+                    <a class="sidebar-menu-button" href="{{ manage_episode_url }}">
+                        <span class="material-icons notranslate sidebar-menu-icon sidebar-menu-icon--left">import_contacts</span>
+                        <span class="sidebar-menu-text">Episode</span>
+                    </a>
+                </li>
+
+                <!-- start professor menu -->
+                <li class="sidebar-menu-item" id="accordion">
+                    <a class="sidebar-menu-button" id="headingOne" href="#account_menu" data-toggle="collapse" data-target="#collapse" aria-expanded="true" aria-controls="collapse">
+                        <span class="material-icons notranslate sidebar-menu-icon sidebar-menu-icon--left">person</span>
+                        Professor
+                        <span class="ml-auto sidebar-menu-toggle-icon"></span>
+                    </a>
+
+                    <ul id="collapse" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                        <li class="sidebar-menu-item {% if request.path == instructor_manage_url %}active{% endif %}">
+                            <a class="sidebar-menu-button" href="{{ instructor_manage_url }}">
+                                <span class="sidebar-menu-text">Professor</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu-item {% if request.path == certification_manage_url %}active{% endif %}">
+                            <a class="sidebar-menu-button" href="{{ education_manage_url }}">
+                                <span class="sidebar-menu-text">Education</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu-item {% if request.path == certification_manage_url %}active{% endif %}">
+                            <a class="sidebar-menu-button" href="{{ certification_manage_url }}">
+                                <span class="sidebar-menu-text">Certification</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu-item {% if request.path == experience_manage_url %}active{% endif %}">
+                            <a class="sidebar-menu-button" href="{{ experience_manage_url }}">
+                                <span class="sidebar-menu-text">Experience</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- end professor menu -->
+
+                <li class="sidebar-menu-item {% if request.path == manage_student_admin_url %}active{% endif %}">
+                    <a class="sidebar-menu-button" href="{{ manage_student_admin_url }}">
+                        <span class="material-icons notranslate sidebar-menu-icon sidebar-menu-icon--left">table_rows</span>
+                        <span class="sidebar-menu-text">Students</span>
+                    </a>
+                </li>
+
+                <!-- start message menu -->
+                <li class="sidebar-menu-item" id="accordionTwo">
+                    <a class="sidebar-menu-button" id="headingTwo" href="#account_menu" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapse">
+                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">mail_outline</span>
+                        Message
+                        <span class="ml-auto sidebar-menu-toggle-icon"></span>
+                    </a>
+
+                    <ul id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionTwo">
+                        <li class="sidebar-menu-item {% if request.path == message_admin_inbox_url %}active{% endif %}">
+                            <a class="sidebar-menu-button" href="{{ message_admin_inbox_url }}">
+                                <span class="sidebar-menu-text">Inbox</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu-item {% if request.path == message_admin_send_url %}active{% endif %}">
+                            <a class="sidebar-menu-button" href="{{ message_admin_send_url }}">
+                                <span class="sidebar-menu-text">Send</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sidebar-menu-item {% if request.path == manage_student_admin_url %}active{% endif %}">
+                    <a class="sidebar-menu-button" href="{% url 'instructor_invoice' %}">
+                        <span class="material-icons notranslate sidebar-menu-icon sidebar-menu-icon--left">table_rows</span>
+                        <span class="sidebar-menu-text">Invoices</span>
+                    </a>
+                </li>
+                <!-- / end message menu -->
+
+            </ul>
+            <div class="sidebar-heading">Reports</div>
+
+            <ul class="sidebar-menu">
+                <li class="sidebar-menu-item {% if request.path == category_professor_url %}active{% endif %}">
+                    <a class="sidebar-menu-button" href="{{ category_professor_url }}">
+                        <span class="material-icons notranslate sidebar-menu-icon sidebar-menu-icon--left">table_rows</span>
+                        <span class="sidebar-menu-text">Category wise professors</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item {% if request.path == top_sales_videos_professor_url %}active{% endif %}">
+                    <a class="sidebar-menu-button" href="{{ top_sales_videos_professor_url }}">
+                        <span class="material-icons notranslate sidebar-menu-icon sidebar-menu-icon--left">table_rows</span>
+                        <span class="sidebar-menu-text">Top sales professors</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item {% if request.path == top_paid_videos_professor_url %}active{% endif %}">
+                    <a class="sidebar-menu-button" href="{{ top_paid_videos_professor_url }}">
+                        <span class="material-icons notranslate sidebar-menu-icon sidebar-menu-icon--left">table_rows</span>
+                        <span class="sidebar-menu-text">Top paid professors</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item {% if request.path == top_private_lesson_contact_professor_url %}active{% endif %}">
+                    <a class="sidebar-menu-button" href="{{ top_private_lesson_contact_professor_url }}">
+                        <span class="material-icons notranslate sidebar-menu-icon sidebar-menu-icon--left">table_rows</span>
+                        <span class="sidebar-menu-text">Top private professors</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item {% if request.path == top_viewing_professor_url %}active{% endif %}">
+                    <a class="sidebar-menu-button" href="{{ top_viewing_professor_url }}">
+                        <span class="material-icons notranslate sidebar-menu-icon sidebar-menu-icon--left">table_rows</span>
+                        <span class="sidebar-menu-text">Top viewing professors</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item {% if request.path == top_self_professor_url %}active{% endif %}">
+                    <a class="sidebar-menu-button" href="{{ top_self_professor_url }}">
+                        <span class="material-icons notranslate sidebar-menu-icon sidebar-menu-icon--left">table_rows</span>
+                        <span class="sidebar-menu-text">Top seles professors</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item {% if request.path == fewer_videos_professor_url %}active{% endif %}">
+                    <a class="sidebar-menu-button" href="{{ fewer_videos_professor_url }}">
+                        <span class="material-icons notranslate sidebar-menu-icon sidebar-menu-icon--left">table_rows</span>
+                        <span class="sidebar-menu-text">Fewer videos professors</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item {% if request.path == sales_url %}active{% endif %}">
+                    <a class="sidebar-menu-button" href="{{ sales_url }}">
+                        <span class="material-icons notranslate sidebar-menu-icon sidebar-menu-icon--left">table_rows</span>
+                        <span class="sidebar-menu-text">Sales Report</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item {% if request.path == series_wise_sales_report_url %}active{% endif %}">
+                    <a class="sidebar-menu-button" href="{{ series_wise_sales_report_url }}">
+                        <span class="material-icons notranslate sidebar-menu-icon sidebar-menu-icon--left">table_rows</span>
+                        <span class="sidebar-menu-text">Series wise sales</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item {% if request.path == professor_wise_sales_report_url %}active{% endif %}">
+                    <a class="sidebar-menu-button" href="{{ professor_wise_sales_report_url }}">
+                        <span class="material-icons notranslate sidebar-menu-icon sidebar-menu-icon--left">table_rows</span>
+                        <span class="sidebar-menu-text">Professor wise sales</span>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</div>

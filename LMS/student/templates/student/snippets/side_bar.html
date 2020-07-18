@@ -1,0 +1,42 @@
+{% load static %}
+{% url 'student-dashboard' as student_dashboard_url %}
+
+<div class="mdk-drawer js-mdk-drawer" id="default-drawer">
+    <div class="mdk-drawer__content">
+        <div class="sidebar sidebar-dark-dodger-blue sidebar-left" data-perfect-scrollbar>
+            <div class="d-flex align-items-center navbar-height">
+                <form action="index.html" class="search-form search-form--black mx-16pt pr-0 pl-16pt">
+                    <input type="text" class="form-control pl-0" placeholder="Search">
+                    <button class="btn" type="submit"><i class="material-icons notranslate">search</i></button>
+                </form>
+            </div>
+            <a href="{% url 'index' %}" class="sidebar-brand ">
+                <!-- <img class="sidebar-brand-icon" src="assets/images/illustration/teacher/128/white.svg" alt="Jtro"> -->
+                <span class="avatar avatar-xl sidebar-brand-icon h-auto">
+                    <span class="avatar-title rounded bg-primary"><img
+                            src="https://as1.ftcdn.net/jpg/00/97/00/00/500_F_97000073_qnDFUJdLGmxr3sIXe0CHv0MT1LbYuQKb.jpg"
+                            class="img-fluid" alt="logo"/></span>
+                </span>
+                <span>TakeLearn</span>
+            </a>
+            
+            <ul class="sidebar-menu">
+                <li class="sidebar-menu-item ">
+                    <a class="sidebar-menu-button" href="/student">Dashboard</a>
+                </li>
+                 <li class="sidebar-menu-item ">
+                    <a class="sidebar-menu-button" href="/student/lessons/">My Lesson</a>
+                </li>
+                <li class="sidebar-heading">Lessons </li>
+                {% for src_context in series_context %}
+                <li class="sidebar-menu-item {% if request.path == student_dashboard_url %}active{% endif %}">
+                    <a class="sidebar-menu-button" href="#">
+                        <span class="material-icons notranslate sidebar-menu-icon sidebar-menu-icon--left">menu_book</span>
+                        <span class="sidebar-menu-text">{{ src_context.title }}</span>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>

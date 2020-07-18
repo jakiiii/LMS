@@ -1,0 +1,146 @@
+{% extends 'base_instructor.html' %}
+{% load static %}
+{% block content %}
+    <div class="pt-32pt">
+        <div class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left adminpanel-width">
+            <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
+
+                <div class="mb-24pt mb-sm-0 mr-sm-24pt">
+                    <h2 class="mb-0">Professor</h2>
+                    <ol class="breadcrumb p-0 m-0">
+                        <li class="breadcrumb-item"><a href="{% url 'instructor-dashboard' %}">Report</a></li>
+                        <li class="breadcrumb-item active">
+                            Category wise professor
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="container page__container page-section adminpanel-width">
+        <div class="page-separator">
+            <div class="page-separator__text">Professors {{val}}</div>
+        </div>
+
+        <div class="card mb-0">
+            <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-date"
+                 data-lists-sort-desc="true"
+                 data-lists-values='["js-lists-values-name", "js-lists-values-company", "js-lists-values-phone", "js-lists-values-date"]'>
+
+                <table class="table mb-0 thead-border-top-0 table-nowrap">
+                    <!-- start search box -->
+                    <div style="padding:10px 0px 10px 0px;" class="form-inline d-flex">
+                        <form method="GET" action="{% url 'professor-series-query' %}" class="form-inline d-flex justify-content-center md-form form-sm active-cyan-2 mt-2">
+                            <input class="form-control  ml-3 w-25" type="text" placeholder="Search" name="q" aria-label="Search">
+                        </form> &nbsp; &nbsp;
+                         <a href="{% url 'instructor-manage' %}" class="btn btn-outline-accent mb-16pt mb-sm-0 mr-sm-16pt"> Reset
+                        <i class="material-icons notranslate icon--right">clear</i>
+                        </a>
+                    </div>
+                    <!-- end search box -->
+                    <thead>
+                    <tr>
+                        <th style="width: 18px;" class="pr-0"> #SL</th>
+
+                        <th>
+                            <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-name">Category</a>
+                        </th>
+                        <th>
+                            Sub Category
+                        </th>
+                        <th>
+                            Photo
+                        </th>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Email
+                        </th>
+                        <th>
+                            Phone Number
+                        </th>
+                        <th>
+                            Total Episodes
+                        </th>
+                    </tr>
+
+                    </thead>
+                    <tbody class="list" id="contacts">
+                    {% for item in courses %}
+                        <tr class="selected btn-white ">
+                            <td class="pr-0">
+                                <p class="btn">{{ forloop.counter }}</p>
+                            </td>
+
+                            <td>
+                                <p>{{item.lesson_of__category__category}}</p>
+                            </td>
+
+                            <td>
+                                <p>{{item.lesson_of__subcategory__subcategory}}</p>
+                            </td>
+
+                            <td>
+                               <img style="width: 70px; height:70px" src="/media/{{ item.episode_instructor__image }}" alt="Avatar" class="avatar-img rounded-circle">
+                            </td>
+                            <td >
+                                <p class="wrap-text">{{ item.episode_instructor__first_name }} {{ item.episode_instructor__last_name }}</p>
+                            </td>
+                            <td>
+                                <p>{{item.episode_instructor__email}}</p>
+                            </td>
+                            <td>
+                                <p >{{ item.episode_instructor__phone }}</p>
+                            </td>
+                            <td>
+                                <p>{{ item.total_episodes }}</p>
+                            </td>
+
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card-footer p-8pt">
+                {% if is_paginated %}
+                    <ul class="pagination justify-content-start pagination-xsm m-0">
+                        <li class="page-item">
+                            {% if page_obj.has_previous %}
+                                <a class="page-link" href="{% url 'instructor-manage' %}?page={{ page_obj.previous_page_number }}"
+                                   aria-label="Previous">
+                                    <span aria-hidden="true" class="material-icons notranslate">chevron_left</span>
+                                    <span>Prev</span>
+                                </a>
+                            {% endif %}
+                        </li>
+
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Page 1">
+                                <span>{{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            {% if page_obj.has_next %}
+                                <a class="page-link" href="{% url 'instructor-manage' %}?page={{ page_obj.next_page_number }}"
+                                   aria-label="Next">
+                                    <span>Next</span>
+                                    <span aria-hidden="true" class="material-icons notranslate">chevron_right</span>
+                                </a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                {% endif %}
+            </div>
+            <!-- <div class="card-body bordet-top text-right">
+15 <span class="text-50">of 1,430</span> <a href="#" class="text-50"><i class="material-icons notranslate ml-1">arrow_forward</i></a>
+</div> -->
+
+
+        </div>
+    </div>
+{% endblock %}

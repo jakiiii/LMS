@@ -1,0 +1,16 @@
+{% load static %}
+<div class="mdk-header__bg">
+{% for img in cover_images %}
+    {% if not img.image %}
+    <div class="mdk-header__bg-front" style="background: url('{{ img.image.url }}') no-repeat;  background-size: cover;"></div>
+    {% else %}
+    <div class="mdk-header__bg-front" style="background: url(https://images.squarespace-cdn.com/content/v1/53ab3880e4b02361275652ed/1519935084112-VRCPRJLTQL1MD53TR1OG/ke17ZwdGBToddI8pDm48kGFkY_VWPAaCLC0Y6D1HB14UqsxRUqqbr1mOJYKfIPR7LoDQ9mXPOjoJoqy81S2I8N_N4V1vUb5AoIIIbLZhVYxCRW4BPu10St3TBAUQYVKcbtkcMqh2x2_zjatLWEO5qHoRKxz1EUmYcenWVH9bHdPU_0QPLOiorUbZ8sWHIKfo/background-img-4.jpg) no-repeat;  background-size: cover;">
+    {% endif %}
+    </div>
+{% endfor %}
+</div>
+
+{#<div class="mdk-header__bg">#}
+{#            <div class="mdk-header__bg-front"#}
+{#                 style="background-image: url('{% static 'home/images/photodune-4161018-group-of-students-m.jpg' %}) url(assets/)"></div>#}
+{#        </div>#}

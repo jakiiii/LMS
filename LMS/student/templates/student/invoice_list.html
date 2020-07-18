@@ -1,0 +1,329 @@
+{% extends 'base_instructor.html' %}
+{% load static %}
+{% block title %} My Lesson{% endblock title %}
+
+{% block content %}
+<div class="pt-32pt" style="margin-top: 2rem;">
+        <div class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left adminpanel-width">
+            <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
+
+                <div class="mb-24pt mb-sm-0 mr-sm-24pt">
+                    <h2 class="mb-0">Invoice</h2>
+
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="page-section">
+    <div class="container page__container  adminpanel-width">
+<div class="page-section border-bottom-2 adminpanel-width" style="padding-top:0">
+    <div class="container page__container adminpanel-width">
+        <div class="card mb-0">
+            <div >
+                <table class="table mb-0 table-nowrap thead-border-top-0">
+                    <thead>
+                    <tr>
+                        <th>#Sl</th>
+                        <th>
+                            <a>Invoice Number</a>
+                        </th>
+                        <th>
+                            <a >Invoice Date</a>
+                        </th>
+                        <th>
+                            <a>Price</a>
+                        </th>
+                        <th>
+                            <a >Vat</a>
+                        </th>
+                        <th>
+                            <a >Total Price</a>
+                        </th>
+                        <th>
+                            <a>Action</a>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody style="text-align:center">
+                    {% for item in invoice %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{item.invoice_number}}</td>
+                        <td>{{item.issue_date}}</td>
+                        <td>${{item.total}}</td>
+                        <td>{{item.vat}}%</td>
+                        <td>${{item.grand_total}}</td>
+                        <td><a href="{% url 'student_invoice_details' item.invoice_number %}" class="btn btn-primary">View</a></td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- START PAGINATION -->
+            <div class="card-footer">
+                <ul class="pagination justify-content-start pagination-xsm m-0">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true" class="material-icons notranslate">chevron_left</span>
+                            <span>Prev</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Page 1">
+                            <span>1</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Page 2">
+                            <span>2</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Next">
+                            <span>Next</span>
+                            <span aria-hidden="true" class="material-icons notranslate">chevron_right</span>
+                        </a>
+                    </li>
+                </ul>
+
+
+            </div>
+            <!-- / END START PAGINATION -->
+        </div>
+    </div>
+    <!-- The Modal -->
+    <div id="videoModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close pull-right" style="padding: 5px; margin: 5px;"> <button class="btn btn-danger">CLOSE &times; </button> </span>
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe id="episode_video" class="embed-responsive-item" src="https://www.youtube.com/embed/ZUgnwymCu5Y"
+                        allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+    <!-- END The Modal -->
+</div>
+    </div>
+    </div>
+
+<script>
+    function ShowVideo() {
+        //var rootfolder = "/media/";
+        ///var newvideo = rootfolder + "" + x;
+        //var iframe = document.getElementById("episode-video-frame");
+        // document.getElementById('episode-video-frame').src = newvideo;
+
+    // Get the modal
+    var modal = document.getElementById("videoModal");
+    
+    var videoframe = document.getElementsByClassName("video-stream");
+
+        var videoframe = document.getElementsByClassName("video-stream");
+
+        // Get the button that opens the modal
+        // var btn = document.getElementById("myBtn");
+
+        //  Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        //  When the user clicks the button, open the modal
+
+        modal.style.display = "block";
+
+//
+        ////  When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            $('iframe').attr('src', $('iframe').attr('src'));
+            modal.style.display = "none";
+        }
+//
+        //  When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                $('iframe').attr('src', $('iframe').attr('src'));
+                modal.style.display = "none";
+            }
+        }
+    }
+
+</script>
+{% endblock %}
+
+<div class="page-section border-bottom-2" style="margin-top: 5rem;">
+    <div class="container page__container adminpanel-width">
+        <div class="card mb-0">
+            <!-- TABLE HEADER -->
+            <div class="card-header d-flex align-items-center">
+                <div class="flatpickr-wrapper flex">
+                    <select class="selectpicker" data-live-search="true">
+                        <option>Select Lesson</option>
+                        <option>Ketchup</option>
+                        <option>Relish</option>
+                    </select>
+
+                    <select class="selectpicker">
+                        <option>Select Series</option>
+                        <option>Ketchup</option>
+                        <option>Relish</option>
+                    </select>
+                </div>
+                <!-- /end dropdown for lesson select -->
+                <div style="padding:10px 0px 10px 0px;" class="form-inline d-flex">
+                    <form method="GET" action="#" class="form-inline d-flex justify-content-center md-form form-sm">
+                        <input class="form-control" type="text" placeholder="Search" name="q" aria-label="Search">
+                    </form>
+                </div>
+                <!-- end search form -->
+            </div>
+            <!-- / END TABLE HEADER -->
+
+            <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-orders-name"
+                 data-lists-values='["js-lists-values-orders-name", "js-lists-values-orders-date", "js-lists-values-orders-amount"]'>
+                <table class="table mb-0 table-nowrap thead-border-top-0">
+                    <thead>
+                    <tr>
+                        <th>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input js-toggle-check-all"
+                                       data-target="#orders" id="customCheckAll">
+                                <label class="custom-control-label" for="customCheckAll"><span class="text-hide">Toggle all</span></label>
+                            </div>
+                        </th>
+                        <th>#Sl</th>
+                        <th>Type</th>
+                        <th>
+                            <a href="javascript:void(0)" class="sort">Episode</a>
+                        </th>
+                        <th>
+                            <a href="javascript:void(0)" class="sort">Series</a>
+                        </th>
+                        <th>
+                            <a href="javascript:void(0)" class="sort">Lesson</a>
+                        </th>
+                        <th>
+                            <a href="javascript:void(0)" class="sort">Category</a>
+                        </th>
+                        <th>
+                            <a href="javascript:void(0)" class="sort">Subcategory</a>
+                        </th>
+                        <th>
+                            <a href="javascript:void(0)" class="sort">Professor</a>
+                        </th>
+                        <th>
+                            <a href="javascript:void(0)" class="sort">Duration</a>
+                        </th>
+                        <th>
+                            <a href="javascript:void(0)" class="sort">Action</a>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody class="list">
+                    <tr>
+                        <td>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input js-check-selected-row"
+                                       id="customCheck1_1">
+                                <label class="custom-control-label" for="customCheck1_1">
+                                    <span class="text-hide">Check</span>
+                                </label>
+                            </div>
+                        </td>
+                        <td><p>1</p></td>
+                        <td><p onclick="ShowVideo()"><i
+                                class="material-icons notranslate text-muted icon--left">play_circle_outline</i></p></td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <p class="js-lists-values-orders-name color-blue" onclick="ShowVideo()">
+
+                                    Getting Started
+                                </p>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <p class="js-lists-values-orders-name">
+                                    <a class="js-lists-values-orders-name" href="">Lesson Name</a>
+                                </p>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <p class="js-lists-values-orders-name">
+                                    <a class="js-lists-values-orders-name" href="">Series Name</a>
+                                </p>
+                            </div>
+                        </td>
+                        <td>
+                            <p class="text-muted">Category</p>
+                        </td>
+                        <td>
+                            <p class="text-muted">Sub Category</p>
+                        </td>
+                        <td>
+                            <p class="js-lists-values-orders-name">
+                                <a class="js-lists-values-orders-name" href="">Shahed Khan</a>
+                            </p>
+                        </td>
+                        <td>
+                            <p class="js-lists-values-orders-name"><i class="material-icons notranslate icon--left">access_time</i>
+                                02:45</p>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <a class="js-lists-values-orders-name" href=""><i
+                                        class="material-icons notranslate text-muted icon--left">lock_open</i></a>
+                                <a class="js-lists-values-orders-name" href=""><i class="material-icons notranslate icon--left">remove_shopping_cart</i></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- START PAGINATION -->
+            <div class="card-footer">
+                <ul class="pagination justify-content-start pagination-xsm m-0">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true" class="material-icons notranslate">chevron_left</span>
+                            <span>Prev</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Page 1">
+                            <span>1</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Page 2">
+                            <span>2</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Next">
+                            <span>Next</span>
+                            <span aria-hidden="true" class="material-icons notranslate">chevron_right</span>
+                        </a>
+                    </li>
+                </ul>
+
+
+            </div>
+            <!-- / END START PAGINATION -->
+        </div>
+    </div>
+    <!-- The Modal -->
+    <div id="videoModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close pull-right" style="padding: 5px; margin: 5px;"> <button class="btn btn-danger">CLOSE &times; </button> </span>
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe id="episode_video" class="embed-responsive-item" src="https://www.youtube.com/embed/ZUgnwymCu5Y"
+                        allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+    <!-- END The Modal -->
+</div>

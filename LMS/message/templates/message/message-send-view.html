@@ -1,0 +1,87 @@
+{% extends 'base_instructor.html' %}
+{% load static %}
+{% block title %} {{title}} || {{ block.super }}{% endblock title %}
+
+{% block content %}
+<div class="page-section" style="margin-top: 4rem;">
+    <div class="container page__container  adminpanel-width">
+        <div>
+            <h2>Sent Message</h2>
+        </div>
+
+        <div class="card mb-0">
+            <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-orders-name"
+                 data-lists-values='["js-lists-values-orders-name", "js-lists-values-orders-date", "js-lists-values-orders-amount"]'>
+                <table class="table mb-0 table-nowrap thead-border-top-0">
+                    <thead>
+                    <tr>
+                        <th>
+                            <label>SL</label>
+                        </th>
+                        <th>
+                            <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-orders-name">Subject</a>
+                        </th>
+                        <th style="width: 150px;">
+                            <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-orders-name">Message</a>
+                        </th>
+                        <th style="width: 150px;">
+                            <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-orders-date">Date</a>
+                        </th>
+                        <th style="width: 100px;">
+                            <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-orders-name">Action</a>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody class="list" id="orders">
+                    {% for context in message_context %}
+                    <tr>
+                        <td>
+                            <label>{{ forloop.counter }}</label>
+                        </td>
+                        <td>
+                            <p class="js-lists-values-orders-date">{{ context.subject }}</p>
+                        </td>
+                        <td class="js-lists-values-orders-date text-50">
+                            <p class="js-lists-values-orders-date">{{ context.body|truncatechars:100 }}</p>
+                        </td>
+                        <td class="js-lists-values-orders-date text-50">{{ context.datetime|date:"D d M Y" }}</td>
+                        <td>
+                            <a href="{{ context.get_student_absolute_url }}" alt="Update"><span class="material-icons">preview</span></a>
+                            <a href="{{ context.get_student_absolute__delete_url }}" alt="Update"><span class="material-icons">delete</span></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="card-footer">
+
+                <ul class="pagination justify-content-start pagination-xsm m-0">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true" class="material-icons">chevron_left</span>
+                            <span>Prev</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Page 1">
+                            <span>1</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Page 2">
+                            <span>2</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Next">
+                            <span>Next</span>
+                            <span aria-hidden="true" class="material-icons">chevron_right</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

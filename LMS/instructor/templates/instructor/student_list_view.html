@@ -1,0 +1,154 @@
+{% extends 'base_instructor.html' %}
+{% load static %}
+{% block title %} {{ title }} || {{ block.super }}{% endblock title %}
+
+
+{% block content %}
+    <div class="pt-32pt">
+        <div class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left adminpanel-width">
+            <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
+
+                <div class="mb-24pt mb-sm-0 mr-sm-24pt">
+                    <h2 class="mb-0">Student</h2>
+                    <ol class="breadcrumb p-0 m-0">
+                        <li class="breadcrumb-item"><a href="{% url 'instructor-dashboard' %}">Dashboard</a></li>
+
+                        <li class="breadcrumb-item active">
+                            Manage Student
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container page__container page-section adminpanel-width">
+        <div class="page-separator">
+            <div class="page-separator__text">Student</div>
+        </div>
+
+        <div class="card mb-0">
+            <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-date"
+                 data-lists-sort-desc="true"
+                 data-lists-values='["js-lists-values-name", "js-lists-values-company", "js-lists-values-phone", "js-lists-values-date"]'>
+
+                <table class="table mb-0 thead-border-top-0 table-nowrap">
+                    <!-- start search box -->
+                    <div style="padding:10px 0px 10px 0px;" class="form-inline d-flex">
+                        <form method="GET" action="{% url 'student-search-query' %}"
+                              class="form-inline d-flex justify-content-center md-form form-sm active-cyan-2 mt-2">
+                            <input class="form-control  ml-3 w-25" type="text" placeholder="Search" name="q"
+                                   aria-label="Search">
+                        </form> &nbsp; &nbsp;
+                        <a href="{% url 'manage-student-admin' %}" class="btn btn-outline-accent mb-16pt mb-sm-0 mr-sm-16pt"> Reset
+                        <i class="material-icons notranslate icon--right">clear</i>
+                        </a>
+                    </div>
+                    <!-- end search box -->
+                    <thead>
+                    <tr>
+                        <th style="width: 18px;" class="pr-0">#SL</th>
+                        <th>
+                            <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-name">Name</a>
+                        </th>
+                        <th>
+                            <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-name">Status</a>
+                        </th>
+                        <th>
+                            <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-name">Package</a>
+                        </th>
+                        <th>
+                            <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-name">Date</a>
+                        </th>
+                        <th>
+                            Actions
+                        </th>
+                    </tr>
+
+                    </thead>
+                    <tbody class="list" id="contacts">
+                    {% for student_context in student_mange_info %}
+                        <tr class="selected">
+                            <td class="pr-0">
+                                <p class="btn">{{ forloop.counter }}</p>
+                            </td>
+
+                            <td>
+                                <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                    <div class="avatar avatar-sm mr-8pt">
+                                        {% if student_context.image %}
+                                            <img src="{{ student_context.image.url }}" alt="Avatar" class="avatar-img rounded-circle">
+                                        {% endif %}
+                                    </div>
+                                    <div class="media-body">
+                                        <div class="d-flex flex-column">
+                                            <p class="mb-0"><strong
+                                                    class="js-lists-values-name">{{ student_context.first_name }} {{ student_context.last_name }}</strong>
+                                            </p>
+                                            <small class="js-lists-values-email text-50">{{ student_context.email }}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                {% if student_context.is_active %}
+                                    <a href="#" class="btn btn-sm btn-primary">Active</a>
+                                {% else %}
+                                    <a href="#" class="btn btn-sm btn-success">Deactivate</a>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <p href="#" class="btn btn-sm btn-accent">Student</p>
+                            </td>
+                            <td>
+                                <p>Start Date: <span>{{ student_context.timestamp|date:"D d M Y" }}</span></p>
+                            </td>
+                            <td>
+                                <a href="{{ student_context.get_absolute_user_update_by_admin_url }}" alt="Update"><span class="material-icons notranslate">update</span></a>
+                                <a href="{{ student_context.get_absolute_user_delete_url }}" alt="Update"><span class="material-icons notranslate">delete</span></a>
+                                <a href="" alt="Update"><span class="material-icons notranslate">preview</span></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card-footer p-8pt">
+                {% if is_paginated %}
+                    <ul class="pagination justify-content-start pagination-xsm m-0">
+                        <li class="page-item">
+                            {% if page_obj.has_previous %}
+                                <a class="page-link"
+                                   href="{% url 'manage-student-admin' %}?page={{ page_obj.previous_page_number }}"
+                                   aria-label="Previous">
+                                    <span aria-hidden="true" class="material-icons notranslate">chevron_left</span>
+                                    <span>Prev</span>
+                                </a>
+                            {% endif %}
+                        </li>
+
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Page 1">
+                                <span>{{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            {% if page_obj.has_next %}
+                                <a class="page-link"
+                                   href="{% url 'manage-student-admin' %}?page={{ page_obj.next_page_number }}"
+                                   aria-label="Next">
+                                    <span>Next</span>
+                                    <span aria-hidden="true" class="material-icons notranslate">chevron_right</span>
+                                </a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                {% endif %}
+            </div>
+            {#            <div class="card-body bordet-top text-right">#}
+            {#                15 <span class="text-50">of 1,430</span> <a href="#" class="text-50"><i class="material-icons notranslate ml-1">arrow_forward</i></a>#}
+            {#            </div>#}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,28 @@
+.mdk-header--bg-dark .mdk-header__bg-front::after {
+    background: none !important;
+}
+
+.mdk-header__bg-front {
+    margin: 0 0 0 0 !important;
+    padding: 10px !important;
+
+}
+
+.bg-transparent {
+  background: #f2f2f3 !important;
+}
+.slider_signup{
+  background: white;
+    opacity: 0.8;
+    padding: 30px;
+    margin: 0 auto;
+    max-width: 600px;
+
+    content: '';
+    text-align: center;
+    border-radius: 13px;
+    -webkit-box-shadow: 0px -2px 31px -9px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px -2px 31px -9px rgba(0,0,0,0.75);
+    box-shadow: 0px -2px 31px -9px rgba(0,0,0,0.75);
+}
+

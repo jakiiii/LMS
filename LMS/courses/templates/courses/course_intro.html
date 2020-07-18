@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ title }} || {{ block.super }}{% endblock title %}
+
+
+{% block content %}
+    <!-- Header Layout Content -->
+        <div class="mdk-header-layout__content page-content ">
+            <div class="navbar navbar-light border-0 navbar-expand">
+                <div class="container page__container">
+                    <div class="media flex-nowrap">
+                        <div class="media-left mr-16pt">
+                            <a href="{{ object.get_absolute_url }}"><img src="{{ object.course_image.url }}" width="40" alt="Angular" class="rounded"></a>
+                        </div>
+                        <div class="media-body">
+                            <a href="{{ object.get_absolute_url }}" class="card-title text-body mb-0">{{ object.title }}</a>
+                            <p class="lh-1 d-flex align-items-center mb-0">
+                                <span class="text-50 small font-weight-bold mr-8pt">{{ object.instructor_id.first_name }} {{ object.instructor_id.last_name }}</span>
+{#                                <span class="text-50 small">Software Engineer and Developer</span>#}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-primary pb-lg-64pt py-32pt">
+                <div class="container page__container">
+{#                    <nav class="course-nav">#}
+{#                        <a data-toggle="tooltip" data-placement="bottom" data-title="Getting Started with Angular: Introduction" href=""><span class="material-icons notranslate">lock</span></a>#}
+{#                        <a data-toggle="tooltip" data-placement="bottom" data-title="Getting Started with Angular: Introduction to TypeScript" href=""><span class="material-icons notranslate text-primary">account_circle</span></a>#}
+{#                        <a data-toggle="tooltip" data-placement="bottom" data-title="Getting Started with Angular: Comparing Angular to AngularJS" href=""><span class="material-icons notranslate">lock</span></a>#}
+{#                        <a data-toggle="tooltip" data-placement="bottom" data-title="Getting Started with Angular: Lesson 4" href=""><span class="material-icons notranslate">lock</span></a>#}
+{#                    </nav>#}
+                    <div class="js-player embed-responsive embed-responsive-16by9 mb-32pt">
+                        <div class="player embed-responsive-item">
+                            <div class="player__content">
+                                <div class="player__image" style="--player-image: url(assets/images/illustration/player.svg)"></div>
+                                <a href="" class="player__play bg-primary">
+                                    <span class="material-icons notranslate">play_arrow</span>
+                                </a>
+                            </div>
+                            <div class="player__embed">
+                                <iframe width="560" height="315" src="{{ object.course_intro_video.url }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+{#                                <iframe class="embed-responsive-item" src="https://player.vimeo.com/video/97243285?title=0&amp;byline=0&amp;portrait=0" allowfullscreen=""></iframe>#}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-wrap align-items-end mb-16pt">
+                        <h1 class="text-white flex m-0">{{ object.title }}</h1>
+                        <p class="h1 text-white-50 font-weight-light m-0">{{ object.course_intro_video_duration }}</p>
+                    </div>
+
+                    <p class="hero__lead measure-hero-lead text-white-50 mb-24pt">{{ object.course_short_description }}</p>
+
+                    <div class="d-flex flex-column flex-sm-row align-items-center justify-content-start">
+{#                        <a href="#" class="btn btn-outline-white mb-16pt mb-sm-0 mr-sm-16pt">Watch trailer <i class="material-icons notranslate icon--right">play_circle_outline</i></a>#}
+                        <a href="#" class="btn btn-outline-white mb-16pt mb-sm-0 mr-sm-16pt">Get started <i class="material-icons notranslate icon--right">play_circle_outline</i></a>
+{#                        <a href="{% url 'register' %}" class="btn btn-white">Get started</a>#}
+                    </div>
+                </div>
+            </div>
+            <div class="navbar navbar-expand-sm navbar-light bg-white border-bottom-2 navbar-list p-0 m-0 align-items-center">
+                <div class="container page__container">
+                    <ul class="nav navbar-nav flex align-items-sm-center">
+                        <li class="nav-item navbar-list__item">
+                            <div class="media align-items-center">
+                                <span class="media-left mr-16pt">
+                                    {% if object.instructor_id.image %}
+                                    <img src="{{ object.instructor_id.image.url }}" width="40" alt="avatar" class="rounded-circle">
+                                    {% else %}
+                                    <img src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png" width="40" alt="avatar" class="rounded-circle">
+                                    {% endif %}
+                                </span>
+                                <div class="media-body">
+                                    <a class="card-title m-0" href="#">{{ object.instructor_id.first_name }} {{ object.instructor_id.last_name }}</a>
+                                    <p class="text-50 lh-1 mb-0">Professor</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item navbar-list__item">
+                            <i class="material-icons notranslate text-muted icon--left">schedule</i>
+                            {{ object.course_complete_duration }}
+                        </li>
+                        <li class="nav-item navbar-list__item">
+                            <i class="material-icons notranslate text-muted icon--left">assessment</i>
+                            {{ object.course_for | capfirst }}
+                        </li>
+{#                        <li class="nav-item ml-sm-auto text-sm-center flex-column navbar-list__item">#}
+{#                            <div class="rating rating-24">#}
+{#                                <div class="rating__item"><i class="material-icons notranslate">star</i></div>#}
+{#                                <div class="rating__item"><i class="material-icons notranslate">star</i></div>#}
+{#                                <div class="rating__item"><i class="material-icons notranslate">star</i></div>#}
+{#                                <div class="rating__item"><i class="material-icons notranslate">star</i></div>#}
+{#                                <div class="rating__item"><i class="material-icons notranslate">star_border</i></div>#}
+{#                            </div>#}
+{#                            <p class="lh-1 mb-0"><small class="text-muted">20 ratings</small></p>#}
+{#                        </li>#}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- // END Header Layout Content -->
+    </div>
+    <!-- // END Header Layout -->
+{% endblock %}

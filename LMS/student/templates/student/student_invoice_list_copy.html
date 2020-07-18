@@ -1,0 +1,123 @@
+{% extends 'base_instructor.html' %}
+{% load static %}
+{% block content %}
+    <div class="pt-32pt">
+        <div class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left adminpanel-width">
+            <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
+
+                <div class="mb-24pt mb-sm-0 mr-sm-24pt">
+                    <h2 class="mb-0">Report</h2>
+                    <ol class="breadcrumb p-0 m-0">
+                        <li class="breadcrumb-item"><a href="{% url 'instructor-dashboard' %}">Report</a></li>
+                        <li class="breadcrumb-item active">
+                            Sales
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="container page__container page-section adminpanel-width table-min-height">
+        <div class="page-separator">
+            <div class="page-separator__text">Professors</div>
+        </div>
+
+        <div class="card mb-0">
+            <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-date"
+                 data-lists-sort-desc="true"
+                 data-lists-values='["js-lists-values-name", "js-lists-values-company", "js-lists-values-phone", "js-lists-values-date"]'>
+
+                <table class="table mb-0 thead-border-top-0 table-nowrap">
+                    <!-- start search box -->
+                    <div style="padding:10px 0px 10px 0px;" class="form-inline d-flex">
+                        <form method="GET" action="{% url 'professor-series-query' %}" class="form-inline d-flex justify-content-center md-form form-sm active-cyan-2 mt-2">
+                            <input class="form-control  ml-3 w-25" type="text" placeholder="Search" name="q" aria-label="Search">
+                        </form> &nbsp; &nbsp;
+                         <a href="{% url 'instructor-manage' %}" class="btn btn-outline-accent mb-16pt mb-sm-0 mr-sm-16pt"> Reset
+                        <i class="material-icons notranslate icon--right">clear</i>
+                        </a>
+                    </div>
+                    <!-- end search box -->
+                    <thead>
+                    <tr>
+                        <th>#Sl</th>
+                        <th>
+                            <a>Invoice Number</a>
+                        </th>
+                        <th>
+                            <a >Invoice Date</a>
+                        </th>
+                        <th>
+                            <a>Price</a>
+                        </th>
+                        <th>
+                            <a >Vat</a>
+                        </th>
+                        <th>
+                            <a >Total Price</a>
+                        </th>
+                        <th>
+                            <a>Action</a>
+                        </th>
+                    </tr>
+
+                    </thead>
+                    <tbody class="list" id="contacts">
+                    {% for item in invoice %}
+                        <tr class="selected btn-white ">
+                             <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{item.invoice_number}}</td>
+                        <td>{{item.issue_date}}</td>
+                        <td>{{item.total}}</td>
+                        <td>{{item.vat}}</td>
+                        <td>{{item.grand_total}}</td>
+                        <td><a href="{% url 'student_invoice_details' item.invoice_number %}" class="btn btn-primary">View</a></td>
+                    </tr>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card-footer p-8pt">
+                {% if is_paginated %}
+                    <ul class="pagination justify-content-start pagination-xsm m-0">
+                        <li class="page-item">
+                            {% if page_obj.has_previous %}
+                                <a class="page-link" href="{% url 'instructor-manage' %}?page={{ page_obj.previous_page_number }}"
+                                   aria-label="Previous">
+                                    <span aria-hidden="true" class="material-icons notranslate">chevron_left</span>
+                                    <span>Prev</span>
+                                </a>
+                            {% endif %}
+                        </li>
+
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Page 1">
+                                <span>{{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            {% if page_obj.has_next %}
+                                <a class="page-link" href="{% url 'instructor-manage' %}?page={{ page_obj.next_page_number }}"
+                                   aria-label="Next">
+                                    <span>Next</span>
+                                    <span aria-hidden="true" class="material-icons notranslate">chevron_right</span>
+                                </a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                {% endif %}
+            </div>
+            <!-- <div class="card-body bordet-top text-right">
+15 <span class="text-50">of 1,430</span> <a href="#" class="text-50"><i class="material-icons notranslate ml-1">arrow_forward</i></a>
+</div> -->
+
+
+        </div>
+    </div>
+{% endblock %}

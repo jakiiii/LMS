@@ -1,0 +1,30 @@
+{% extends 'base_instructor.html' %}
+{% load static %}
+{% block title %} {{title}} || {{ block.super }}{% endblock title %}
+
+{% block content %}
+    <div class="pt-32pt">
+        <div class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left">
+            <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
+
+                <div class="mb-24pt mb-sm-0 mr-sm-24pt">
+                    <h2 class="mb-0">Professor</h2>
+                    <ol class="breadcrumb p-0 m-0">
+                        <li class="breadcrumb-item"><a href="{% url 'instructor-dashboard' %}">Dashboard</a></li>
+
+                        <li class="breadcrumb-item active">
+                            New Professor
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container page__container page-section">
+        <div class="page-separator">
+            <div class="page-separator__text">Add New Professor</div>
+        </div>
+    {% include 'form.html' %}
+    </div>
+{% endblock %}

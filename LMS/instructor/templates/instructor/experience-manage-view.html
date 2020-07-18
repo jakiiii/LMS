@@ -1,0 +1,155 @@
+{% extends 'base_instructor.html' %}
+{% load static %}
+{% block title %} Professor Experience || {{ block.super }}{% endblock title %}
+
+{% block content %}
+    <div class="pt-32pt">
+        <div class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left adminpanel-width">
+            <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
+
+                <div class="mb-24pt mb-sm-0 mr-sm-24pt">
+                    <h2 class="mb-0">Professor Experience</h2>
+                    <ol class="breadcrumb p-0 m-0">
+                        <li class="breadcrumb-item"><a href="{% url 'instructor-dashboard' %}">Dashboard</a></li>
+
+                        <li class="breadcrumb-item active">
+                            Manage Professor Experience
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="row" role="tablist">
+                <div class="col-auto">
+                    <a href="{% url 'experience-create' %}" class="btn btn-primary-dodger-blue">Add Professor Experience</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container page__container page-section adminpanel-width table-min-height">
+        <div class="page-separator">
+            <div class="page-separator__text">Professors Experience</div>
+        </div>
+
+        <div class="card mb-0">
+            <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-date"
+                 data-lists-sort-desc="true"
+                 data-lists-values='["js-lists-values-name", "js-lists-values-company", "js-lists-values-phone", "js-lists-values-date"]'>
+
+                <table class="table mb-0 thead-border-top-0 table-nowrap">
+                    <!-- start search box -->
+                    <div style="padding:10px 0px 10px 0px;" class="form-inline d-flex">
+                        <form method="GET" action="#" class="form-inline d-flex justify-content-center md-form form-sm active-cyan-2 mt-2">
+                            <input class="form-control  ml-3 w-25" type="text" placeholder="Search" name="q" aria-label="Search">
+                        </form> &nbsp; &nbsp;
+                         <a href="{% url 'experience-manage' %}" class="btn btn-outline-accent mb-16pt mb-sm-0 mr-sm-16pt"> Reset
+                        <i class="material-icons notranslate icon--right">clear</i>
+                        </a>
+                    </div>
+                    <!-- end search box -->
+                    <thead>
+                    <tr>
+                        <th style="width: 18px;" class="pr-0"> #SL</th>
+
+                        <th>
+                            <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-name">Professor</a>
+                        </th>
+                        <th>
+                            Experience
+                        </th>
+                        <th>
+                            Issue Date
+                        </th>
+                        <th>
+                            End Date
+                        </th>
+                        <th>
+                            Action
+                        </th>
+                    </tr>
+
+                    </thead>
+                    <tbody class="list" id="contacts">
+                        {% for context in experience_context %}
+                        <tr class="selected btn-white ">
+                            <td class="pr-0">
+                                <p class="btn">{{ forloop.counter }}</p>
+                            </td>
+
+                            <td>
+                                <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                    <div class="avatar avatar-sm mr-8pt">
+                                        {% if context.professor.image %}
+                                            <img src="{{ context.professor.image.url }}" alt="Avatar"
+                                                 class="avatar-img rounded-circle">
+                                        {% endif %}
+                                    </div>
+                                    <div class="media-body">
+                                        <div class="d-flex flex-column">
+                                            <p class="mb-0">
+                                                <strong class="js-lists-values-name">{{ context.professor.first_name }} {{ context.professor.last_name }}</strong>
+                                            </p>
+                                            <small class="text-muted">{{context.professor.timestamp|date:"D d M Y"}}</small>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td >
+                                <p class="wrap-text">{{ context.title }}</p>
+                            </td>
+                            <td>
+                                <p >{{ context.ex_period }}</p>
+                            </td>
+                            <td>
+                                <p>{{ context.ex_end_period }}</p>
+                            </td>
+                            <td>
+                                <a href="{{ context.get_absolute_experience_update_url }}" alt="Update"><span class="material-icons notranslate">edit</span></a>
+                                <a href="{{ context.get_absolute_experience_delete_url }}" alt="Update"><span class="material-icons notranslate">delete</span></a>
+                                <a href="{{ context.professor.get_absolute_url }}" alt="Update" target="_blank"><span class="material-icons notranslate">preview</span></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="card-footer p-8pt">
+                {% if is_paginated %}
+                    <ul class="pagination justify-content-start pagination-xsm m-0">
+                        <li class="page-item">
+                            {% if page_obj.has_previous %}
+                                <a class="page-link" href="{% url 'experience-manage' %}?page={{ page_obj.previous_page_number }}"
+                                   aria-label="Previous">
+                                    <span aria-hidden="true" class="material-icons notranslate">chevron_left</span>
+                                    <span>Prev</span>
+                                </a>
+                            {% endif %}
+                        </li>
+
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Page 1">
+                                <span>{{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            {% if page_obj.has_next %}
+                                <a class="page-link" href="{% url 'experience-manage' %}?page={{ page_obj.next_page_number }}"
+                                   aria-label="Next">
+                                    <span>Next</span>
+                                    <span aria-hidden="true" class="material-icons notranslate">chevron_right</span>
+                                </a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                {% endif %}
+            </div>
+            <!-- End Pagination -->
+
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,116 @@
+{% load static %}
+{% url 'student-dashboard' as student_dashboard_url %}
+{% url 'student-lessons' as student_lessons_url %}
+{% url 'student-profile' as student_profile_url %}
+{% url 'student-profile-edit' as student_profile_edit_url %}
+{% url 'message-inbox' as message_inbox %}
+{% url 'message-sent' as message_sent %}
+{% url 'logout' as logout_url %}
+
+<div class="mdk-drawer js-mdk-drawer" id="default-drawer">
+    <div class="mdk-drawer__content">
+        <div class="sidebar sidebar-dark-dodger-blue sidebar-left" data-perfect-scrollbar>
+            <div class="d-flex align-items-center navbar-height">
+                <form action="index.html" class="search-form search-form--black mx-16pt pr-0 pl-16pt">
+                    <input type="text" class="form-control pl-0" placeholder="Search">
+                    <button class="btn" type="submit"><i class="material-icons notranslate">search</i></button>
+                </form>
+            </div>
+            <a href="{% url 'index' %}" class="sidebar-brand ">
+                <!-- <img class="sidebar-brand-icon" src="assets/images/illustration/teacher/128/white.svg" alt="Jtro"> -->
+                <span class="avatar avatar-xl sidebar-brand-icon h-auto">
+                    <span class="avatar-title rounded bg-primary"><img
+                            src="https://as1.ftcdn.net/jpg/00/97/00/00/500_F_97000073_qnDFUJdLGmxr3sIXe0CHv0MT1LbYuQKb.jpg"
+                            class="img-fluid" alt="logo"/></span>
+                </span>
+                <span>TakeLearn</span>
+            </a>
+            <div class="sidebar-heading">Student</div>
+            <ul class="sidebar-menu">
+                <li class="sidebar-menu-item {% if request.path == student_dashboard_url %}active{% endif %}">
+                    <a class="sidebar-menu-button" href="{{ student_dashboard_url }}">
+                        <span class="material-icons notranslate sidebar-menu-icon sidebar-menu-icon--left">school</span>
+                        <span class="sidebar-menu-text">Dashboard</span>
+                    </a>
+                </li>
+                <!--<li class="sidebar-menu-item">-->
+                    <!--<a class="sidebar-menu-button" href="{{ student_browse_lesson_url }}">-->
+                        <!--<span class="material-icons notranslate sidebar-menu-icon sidebar-menu-icon&#45;&#45;left">import_contacts</span>-->
+                        <!--<span class="sidebar-menu-text">Browse Lessons</span>-->
+                    <!--</a>-->
+                <!--</li>-->
+                <li class="sidebar-menu-item {% if request.path == student_lessons_url %}active{% endif %}">
+                    <a class="sidebar-menu-button" href="{{ student_lessons_url }}">
+                        <span class="material-icons notranslate sidebar-menu-icon sidebar-menu-icon--left">import_contacts</span>
+                        <span class="sidebar-menu-text">My Lessons</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item" id="accordionTwo">
+                    <a class="sidebar-menu-button" id="headingTwo" href="#account_menu" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapse">
+                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">mail_outline</span>
+                        Message
+                        <span class="ml-auto sidebar-menu-toggle-icon"></span>
+                    </a>
+
+                    <ul id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionTwo">
+                        <li class="sidebar-menu-item {% if request.path == student_profile_url %}active{% endif %}">
+                            <a class="sidebar-menu-button" href="{{ message_inbox }}">
+                                <span class="sidebar-menu-text">Inbox</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu-item {% if request.path == student_profile_edit_url %}active{% endif %}">
+                            <a class="sidebar-menu-button" href="{{ message_sent }}">
+                                <span class="sidebar-menu-text">Send</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!--/ end of message menu -->
+                <li class="sidebar-menu-item" id="accordion">
+                    <a class="sidebar-menu-button" id="headingOne" href="#account_menu" data-toggle="collapse" data-target="#collapse" aria-expanded="true" aria-controls="collapse">
+                        <span class="material-icons notranslate sidebar-menu-icon sidebar-menu-icon--left">account_box</span>
+                        Account
+                        <span class="ml-auto sidebar-menu-toggle-icon"></span>
+                    </a>
+
+                    <ul id="collapse" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                        <li class="sidebar-menu-item {% if request.path == student_profile_url %}active{% endif %}">
+                            <a class="sidebar-menu-button" href="{{ student_profile_url }}">
+                                <span class="sidebar-menu-text">Profile</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu-item {% if request.path == student_profile_edit_url %}active{% endif %}">
+                            <a class="sidebar-menu-button" href="{{ student_profile_edit_url }}">
+                                <span class="sidebar-menu-text">Profile Update</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu-item">
+                            <a class="sidebar-menu-button" href="{{ logout_url }}">
+                                <span class="sidebar-menu-text">Logout</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sidebar-menu-item {% if request.path == student_lessons_url %}active{% endif %}">
+                    <a class="sidebar-menu-button" href="{% url 'student_invoice' %}">
+                        <span class="material-icons notranslate sidebar-menu-icon sidebar-menu-icon--left">import_contacts</span>
+                        <span class="sidebar-menu-text">Invoice</span>s
+                    </a>
+                </li>
+                <!--/ end of account menu -->
+
+                {% if series_context %}
+                <div class="sidebar-heading" style="padding-top: 1rem;">Lessons</div>
+                {% endif %}
+                {% for src_context in series_context %}
+                <li class="sidebar-menu-item {% if request.path == student_dashboard_url %}active{% endif %}">
+                    <a class="sidebar-menu-button" href="#">
+                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">menu_book</span>
+                        <span class="sidebar-menu-text">{{ src_context.title }}</span>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>

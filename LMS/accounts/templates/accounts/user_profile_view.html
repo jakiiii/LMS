@@ -1,0 +1,38 @@
+{% extends 'base_instructor.html' %}
+{% block title %} {{ title }} || {{ block.super }}{% endblock title %}
+
+{% block content %}
+    <div class="pt-32pt">
+        <div class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left">
+            <div class="flex d-flex flex-column flex-sm-row align-items-center">
+
+                <div class="mb-24pt mb-sm-0 mr-sm-24pt">
+                    <h2 class="mb-0">Account</h2>
+                    <ol class="breadcrumb p-0 m-0">
+                        <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="">Profile</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="container page__container page-section">
+            <div class="page-separator">
+                <div class="page-separator__text">Profile Information</div>
+            </div>
+            <div class="col-md-6 p-0">
+                {% if object.image %}
+                <img src="{{ object.image.url }}" alt="people" width="56" class="img img-thumbnail"/>
+                {% else %}
+                <img src="https://cdn1.iconfinder.com/data/icons/profession-avatar-filled-outline/64/Avatar-teacher-lecturer-instructor-512.png" alt="people" width="56" class="img img-thumbnail"/>
+                {% endif %}
+                <hr />
+                <input type="text" class="form-control" value="First Name: {{ object.first_name }}" disabled="disabled"><br/>
+                <input type="text" class="form-control" value="Last Name: {{ object.last_name }}" disabled="disabled"><br/>
+                <input type="text" class="form-control" value="Email: {{ object.email }}" disabled="disabled"><br/>
+                <textarea class="form-control" disabled="disabled" style="height: 10rem;">{{ object.about }}</textarea>
+            </div>
+        </div>
+    </div>
+{% endblock %}
