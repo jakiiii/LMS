@@ -44,55 +44,60 @@
                     </tr>
                     </thead>
                     <tbody class="list" id="orders">
+                    {% for context in message_replay_context %}
                     <tr>
                         <td>
                             <div class="custom-control custom-checkbox">
-                                <label>1</label>
+                                <label>{{ forloop.counter }}</label>
                             </div>
                         </td>
                         <td>
                             <span class="d-flex align-items-center">
-                                <i class="material-icons text-20 mr-8pt">contacts</i>
-                                <a class="js-lists-values-orders-name" href="">Jenell D. Matney</a>
+                                <p class="js-lists-values-orders-name" href="">{{ context.msg.subject }}</p>
                             </span>
+                            <p class="text-50">{{ context.user }}</p>
                         </td>
-                        <td class="js-lists-values-orders-date text-50"> 
-                          <p class="text-muted wrap-text">  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. </p>
-                            </td>
-                        <td class="js-lists-values-orders-date text-50">4 days ago</td>
+                        <td class="js-lists-values-orders-date text-50">
+                            <p class="text-muted wrap-text">{{ context.reply|truncatechars:100 }}</p>
+                        </td>
+                        <td class="js-lists-values-orders-date text-50">{{ context.datetime|date:"D d M Y" }}</td>
                         <td>
-                            <a href="{{ context.get_absolute_url }}" alt="Update"><span class="material-icons">preview</span></a>
-                            <a href="{{ context.get_absolute_message_delete_url }}" alt="Update"><span class="material-icons">delete</span></a>
+                            <a href="{{ context.get_absolute_replay_url }}" alt="Read"><span class="material-icons">preview</span></a>
+                            <a href="{{ context.get_absolute_replay_delete_url }}" alt="Delete"><span class="material-icons">delete</span></a>
                         </td>
                     </tr>
+                    {% endfor %}
                 </table>
             </div>
+
             <div class="card-footer">
 
+                {% if is_paginated %}
                 <ul class="pagination justify-content-start pagination-xsm m-0">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true" class="material-icons">chevron_left</span>
+                    <li class="page-item">
+                        {% if page_obj.has_previous %}
+                        <a class="page-link" href="{% url 'message-inbox' %}?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                            <span aria-hidden="true" class="material-icons notranslate">chevron_left</span>
                             <span>Prev</span>
                         </a>
+                        {% endif %}
                     </li>
+
                     <li class="page-item">
                         <a class="page-link" href="#" aria-label="Page 1">
-                            <span>1</span>
+                            <span>{{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
                         </a>
                     </li>
                     <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Page 2">
-                            <span>2</span>
-                        </a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
+                        {% if page_obj.has_next %}
+                        <a class="page-link" href="{% url 'message-inbox' %}?page={{ page_obj.next_page_number }}" aria-label="Next">
                             <span>Next</span>
-                            <span aria-hidden="true" class="material-icons">chevron_right</span>
+                            <span aria-hidden="true" class="material-icons notranslate">chevron_right</span>
                         </a>
+                        {% endif %}
                     </li>
                 </ul>
+                {% endif %}
 
             </div>
         </div>

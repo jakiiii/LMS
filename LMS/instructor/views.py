@@ -1,3 +1,5 @@
+import decimal
+
 from django.shortcuts import reverse
 from django.http import Http404
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -5,6 +7,8 @@ from django.views.generic import TemplateView, ListView, DetailView, CreateView,
 from django.shortcuts import render, redirect
 from carts.models import Invoice, Cart
 from instructor.models.company_settings import CompanySettings
+from django.db.models import Count, Sum
+from operator import itemgetter
 
 from .forms import (
     CreateBlogPostFrom, CreateCourseForm, InstructorCreationForm, EducationCreationForm, CertificationCreationForm,
@@ -755,22 +759,18 @@ class StudentAdminDeleteView(LoginRequiredMixin, DeleteView):
 
 
 def category_professor(request):
-    courses = list(Episode.objects.order_by().values(
+    courses = list(Episode.objects.values(
+        'episode_instructor__id',
         'lesson_of__category__category',
+        'lesson_of__subcategory__id',
         'lesson_of__subcategory__subcategory',
         'episode_instructor__first_name',
         'episode_instructor__last_name',
         'episode_instructor__phone',
         'episode_instructor__image',
         'episode_instructor__email',
-        'episode_instructor__user'
-    ))
-    count = 0
-    for item in courses:
-        total_episode = Episode.objects.filter(episode_instructor__user=item['episode_instructor__user']).count()
-        courses[count]['total_episodes'] = total_episode
-        count += 1
-    print(courses)
+
+    ).order_by('episode_instructor__id').annotate(total_episode=Count('lesson_of__subcategory__id')))
     template_name = 'instructor/category_professor.html'
     context = {
         "instructor_navbar": 'manage-student-admin',
@@ -780,17 +780,53 @@ def category_professor(request):
 
 
 def top_sales_videos_professor(request):
+    data = Invoice.objects.values(
+        'episode_id__episode_instructor__id',
+        'episode_id__lesson_of__category__category',
+        'episode_id__lesson_of__subcategory__subcategory',
+        'episode_id__episode_instructor__first_name',
+        'episode_id__episode_instructor__last_name',
+        'episode_id__episode_instructor__phone',
+        'episode_id__episode_instructor__image',
+        'episode_id__episode_instructor__email',
+        'episode_id__episode_instructor__user'
+    ).annotate(the_count=Count('episode_id__episode_instructor__id')).order_by('-the_count')
+
     template_name = 'instructor/top_sales_videos_professor.html'
     context = {
         "instructor_navbar": 'manage-student-admin',
+        "data": data
     }
     return render(request, template_name, context)
 
 
 def top_paid_videos_professor(request):
+    data = Invoice.objects.values(
+        'episode_id__episode_instructor__id',
+        'episode_id__lesson_of__category__category',
+        'episode_id__lesson_of__subcategory__subcategory',
+        'episode_id__episode_instructor__first_name',
+        'episode_id__episode_instructor__last_name',
+        'episode_id__episode_instructor__phone',
+        'episode_id__episode_instructor__image',
+        'episode_id__episode_instructor__email',
+        'episode_id__episode_instructor__user',
+    ).annotate(the_count=Count('episode_id__episode_instructor__id')).order_by('-the_count')
+
+    for item in data:
+        instructor_episodes = Invoice.objects.filter(
+            episode_id__episode_instructor__id=item['episode_id__episode_instructor__id']).values_list(
+            'episode_id__price')
+        total = decimal.Decimal(0)
+        for price in instructor_episodes:
+            total += price[0]
+        item['total'] = total
+
+    data = sorted(list(data), key=itemgetter('total'), reverse=True)
     template_name = 'instructor/top_paid_videos_professor.html'
     context = {
         "instructor_navbar": 'manage-student-admin',
+        "data": data
     }
     return render(request, template_name, context)
 
@@ -820,9 +856,30 @@ def top_self_professor(request):
 
 
 def fewer_videos_professor(request):
+    data = list(Episode.objects.values(
+        'episode_instructor__id',
+        'lesson_of__category__category',
+        'lesson_of__subcategory__subcategory',
+        'episode_instructor__first_name',
+        'episode_instructor__last_name',
+        'episode_instructor__phone',
+        'episode_instructor__image',
+        'episode_instructor__email',
+        'episode_instructor__user',
+
+    ).annotate(the_count=Count('episode_instructor__id')).order_by('-the_count'))
+    print(data)
+    count = 0
+    while count < len(data):
+        if data[count]['the_count'] > 5:
+            data.pop(count)
+            count = count - 1
+        count += 1
+
     template_name = 'instructor/fewer_videos_professor.html'
     context = {
         "instructor_navbar": 'manage-student-admin',
+        "data": data
     }
     return render(request, template_name, context)
 
@@ -844,17 +901,42 @@ def sales(request):
 
 
 def series_wise_sales_report(request):
+    data = list(Invoice.objects.values(
+        'episode_id__series_of__id',
+        'episode_id__series_of__lesson_title',
+    ).order_by('episode_id__series_of__id').annotate(price_sum=Sum('subtotal'), total_episode=Count('episode_id_id')))
+    vat_percentage = CompanySettings.objects.all().values_list('vat_percentage',  flat=True)[0]
+    count = 0
+    for item in data:
+        data[count]['vat'] = vat_percentage
+        data[count]['total_price_adding_vat'] = item['price_sum'] + (decimal.Decimal(vat_percentage)/100) * item['price_sum']
+        count += 1
     template_name = 'instructor/series_wise_sales_report.html'
     context = {
         "instructor_navbar": 'manage-student-admin',
+        "data": data
     }
     return render(request, template_name, context)
 
 
 def professor_wise_sales_report(request):
+    data = list(Invoice.objects.values(
+        'episode_id__episode_instructor__id',
+        'episode_id__episode_instructor__first_name',
+        'episode_id__episode_instructor__last_name',
+    ).order_by('episode_id__episode_instructor__id').annotate(price_sum=Sum('subtotal'), total_episode=Count('episode_id_id')))
+    vat_percentage = CompanySettings.objects.all().values_list('vat_percentage', flat=True)[0]
+    count = 0
+    for item in data:
+        data[count]['vat'] = vat_percentage
+        data[count]['total_price_adding_vat'] = item['price_sum'] + (decimal.Decimal(vat_percentage) / 100) * item[
+            'price_sum']
+        count += 1
+    print(data)
     template_name = 'instructor/professor_wise_sales_report.html'
     context = {
         "instructor_navbar": 'manage-student-admin',
+        "data": data
     }
     return render(request, template_name, context)
 
@@ -900,7 +982,7 @@ def invoice_details(request, key):
     company_details = list(CompanySettings.objects.all().values())[0]
     invoice_data = list(
         Invoice.objects.filter(invoice_number=key).values('episode_id__title', 'subtotal', 'invoice_number', 'vat',
-                                                        'issue_date', 'total', 'grand_total'))
+                                                          'issue_date', 'total', 'grand_total'))
     return render(request, 'instructor/invoice_details.html', {
         "company_details": company_details,
         "invoice_data": invoice_data

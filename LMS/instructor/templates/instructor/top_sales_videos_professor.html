@@ -70,34 +70,34 @@
 
                     </thead>
                     <tbody class="list" id="contacts">
-                    {% for item in courses %}
+                    {% for item in data %}
                         <tr class="selected btn-white ">
                             <td class="pr-0">
                                 <p class="btn">{{ forloop.counter }}</p>
                             </td>
 
                             <td>
-                                <p>{{item.lesson_of__category__category}}</p>
+                                <p>{{item.episode_id__lesson_of__category__category}}</p>
                             </td>
 
                             <td>
-                                <p>{{item.lesson_of__subcategory__subcategory}}</p>
+                                <p>{{item.episode_id__lesson_of__subcategory__subcategory}}</p>
                             </td>
 
                             <td>
-                               <img width="70px" height="70px" src="/media/{{ item.episode_instructor__image }}" alt="Avatar" class="avatar-img rounded-circle">
+                               <img style="width:70px ; height:70px ; padding: 5px" src="/media/{{ item.episode_id__episode_instructor__image }}" alt="Avatar" class="avatar-img rounded-circle">
                             </td>
                             <td >
-                                <p class="wrap-text">{{ item.episode_instructor__first_name }} {{ item.episode_instructor__last_name }}</p>
+                                <p class="wrap-text">{{ item.episode_id__episode_instructor__first_name }} {{ item.episode_id__episode_instructor__last_name }}</p>
                             </td>
                             <td>
-                                <p>{{item.episode_instructor__email}}</p>
+                                <p>{{item.episode_id__episode_instructor__email}}</p>
                             </td>
                             <td>
-                                <p >{{ item.episode_instructor__phone }}</p>
+                                <p >{{ item.episode_id__episode_instructor__phone }}</p>
                             </td>
                             <td>
-                                <p>{{ item.total_episodes }}</p>
+                                <p>{{ item.the_count }}</p>
                             </td>
 
                         </tr>

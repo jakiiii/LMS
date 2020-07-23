@@ -202,3 +202,23 @@
 .tab-pane .fade  .active p{
   padding: 10px !important;
 }
+
+
+   .carousel-item img{
+        height: 550px;
+        min-height:400px;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    .bg-banner{
+            background: #FFF;
+            border-radius: 9px;
+            top: 29%;
+            bottom: 27% !important;
+            width: 50%;
+            margin: 0 auto;
+            opacity: 0.8;
+            padding:3%;
+            
+    }
+

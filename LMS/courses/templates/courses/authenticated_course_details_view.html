@@ -4,6 +4,23 @@
 
 
 {% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" ></script>
+
+<!--<script>-->
+    <!--$(document).ready(function () {-->
+        <!--var $seriesVar = $('#seriesID');-->
+        <!--var $episodeVar = $('#episodeID');-->
+        <!--var $episodeTable = $('#episodeTable');-->
+
+        <!--var $options2 = $episodeTable.find('');-->
+
+        <!--$seriesVar.on('change',function () {-->
+            <!--$episodeTable.html($options2.filter('[value="'+this.value+'"]'));-->
+        <!--}).trigger('change');-->
+    <!--});-->
+<!--</script>-->
+
+
 <div class="page-section border-bottom-2" style="margin-top: 5rem;">
     <div class="container page__container adminpanel-width" style="min-height:400px">
 
@@ -17,6 +34,12 @@
                     <!-- TABLE HEADER -->
                     <div class="card-header d-flex align-items-center">
                         <div class="flatpickr-wrapper flex">
+                            <select class="selectpicker" data-live-search="true" id="seriesID">
+                                <option>Select Series</option>
+                                {% for series in series_context %}
+                                <option value="{{series.id}}">{{ series.lesson_title }}</option>
+                                {% endfor %}
+                            </select>
                         </div>
                     </div>
                     <!-- / END TABLE HEADER -->
@@ -52,7 +75,7 @@
                                 </th>
                             </tr>
                             </thead>
-                            <tbody class="list">
+                            <tbody class="list" id="episodeTable">
                             {% for l_context in series_context %}
                             {% for ep_context in episode_context %}
                             {% if l_context == ep_context.series_of %}
@@ -62,6 +85,7 @@
                                 </td>
                                 <td>
                                     <div class="d-flex align-items-center">
+
                                         <a class="js-lists-values-orders-name"  onclick="changeVideo('{{ep_context.video}}')" href="#" id=" video-link-{{ ep_context.id}}">
                                             <b>{{ ep_context.title }}</b>
                                         </a>

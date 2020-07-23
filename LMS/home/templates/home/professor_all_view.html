@@ -32,75 +32,62 @@
 <div class="page-section border-bottom-2">
     <div class="container page__container">
         <div class="row">
-         <div class="col-md-12">
-            <h3 class="text-center">Your Professor</h3>
-            <form class="form-inline pull-right">
-               <div class="form-group mx-sm-3 mb-2">
-                 <input type="text" class="form-control" id="professor" placeholder="type professor name">
-               </div>
-               <button type="submit" class="btn btn-primary mb-2">Search</button>
-             </form>
+            <div class="col-md-12">
+                <h3 class="text-center">Your Professor</h3>
+                <form method="GET" action="{% url 'professor-search' %}" class="form-inline d-flex justify-content-center md-form form-sm active-cyan-2 mt-2">
+                    <input class="form-control  ml-3 w-25" type="text" placeholder="Search" name="q" aria-label="Search">
+                </form>
             </div>
-
-      </div>
-      <div class="row" style="padding-top: 1rem;">
-         {% for context in professor_context %}
-          <div class="col-md-6 col-lg-4 col-xl-3 card-group-row__col">
-            <div class="card prof-card ">
-               <a href="{{ context.get_absolute_url }}" target="_blank">
-                  <img src="{{ context.image.url }}" alt="Age Of Wisdom Tan Graphic Tee" title="" width="100%"  height="190px">
-              </a>
-                 <div class="card-body pb-3">
-                   <p class="card-title prof-title font-weight-bold"><a href=""><strong>{{ context.first_name }} {{ context.last_name }}</strong></a></p>
-                   <p class="text text-success font-weight-bold mb-1 h6">Starting at $50</p>
-                   <div class="card-text text-secondary wrap-card">
-                     <p>{{ context.short_bio|truncatechars:50 }}</p>
+        </div>
+        <div class="row" style="padding-top: 1rem;">
+            {% for context in professor_context %}
+            <div class="col-md-6 col-lg-4 col-xl-3 card-group-row__col">
+                <div class="card prof-card ">
+                    <a href="{{ context.get_absolute_url }}" target="_blank">
+                        <img src="{{ context.image.url }}" alt="Age Of Wisdom Tan Graphic Tee" title="" width="100%"  height="190px">
+                    </a>
+                    <div class="card-body pb-3">
+                        <p class="card-title prof-title font-weight-bold"><a href=""><strong>{{ context.first_name }} {{ context.last_name }}</strong></a></p>
+                        <p class="text text-success font-weight-bold mb-1 h6">Starting at $50</p>
+                        <div class="card-text text-secondary wrap-card">
+                            <p>{{ context.short_bio|truncatechars:50 }}</p>
+                        </div>
+                        <a href="{{ context.get_absolute_url }}" class="btn btn-outline-primary btn-sm btn-block mt-1">View Profile</a>
                     </div>
-                   <a href="{{ context.get_absolute_url }}" class="btn btn-outline-primary btn-sm btn-block mt-1">View Profile</a>
-                 </div>
-               </div>
+                </div>
             </div>
             {% endfor %}
+        </div>
+        {% if is_paginated %}
+        <div class="card-footer">
+            <ul class="pagination justify-content-start pagination-xsm m-0">
+                <li class="page-item">
+                    {% if page_obj.has_previous %}
+                    <a class="page-link" href="{% url 'all-professor' %}?page={{ page_obj.previous_page_number }}"
+                       aria-label="Previous">
+                        <span aria-hidden="true" class="material-icons notranslate">chevron_left</span>
+                        <span>Prev</span>
+                    </a>
+                    {% endif %}
+                </li>
 
-   </div>
-            <!-- <div class="row">
-               <div class="col-md-12">
-                  <div class="professon-list">
-                     <table class="table table-striped table-style">
-                        <thead>
-                           <tr>
-                              <th scope="col">Image</th>
-                              <th scope="col"> Name</th>
-                              <th scope="col">Bio</th>
-                              <th scope="col">Location</th>
-                              <th scope="col">Email</th>
-                              <th scope="col">Designation</th>
-                              <th scope="col">View Details</th>
-                           </tr>
-                        </thead>
-                        <tbody>
-                        {% for context in professor_context %}
-                           <tr>
-                              <td>
-                                <a href="{{ context.get_absolute_url }}" target="_blank">
-                                    <img src="{{ context.image.url }}" alt="Age Of Wisdom Tan Graphic Tee" title="" width="47" height="47">
-                                </a>
-                              </td>
-                              <td><a href=""><strong>{{ context.first_name }} {{ context.last_name }}</strong></a></td>
-                              <td>{{ context.short_bio }}</td>
-                              <td>{{ context.address_office }}</td>
-                              <td>{{ context.email }}</td>
-                              <td>{{ context.designation }}</td>
-                              <td><a class="btn btn-outline-info btn-sm" href="{{ context.get_absolute_url }}" target="_blank"> <i class="fa fa-eye"></i> </a></td>
-                           </tr>
-                        {% endfor %}
-                        </tbody>
-                     </table>
-
-                  </div>
-               </div>
-            </div> -->
-         </div>
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Page 1">
+                        <span>{{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    {% if page_obj.has_next %}
+                    <a class="page-link" href="{% url 'all-professor' %}?page={{ page_obj.next_page_number }}"
+                       aria-label="Next">
+                        <span>Next</span>
+                        <span aria-hidden="true" class="material-icons notranslate">chevron_right</span>
+                    </a>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

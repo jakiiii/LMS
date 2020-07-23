@@ -99,17 +99,17 @@
                 </li>
                 <!--/ end of account menu -->
 
-                {% if series_context %}
-                <div class="sidebar-heading" style="padding-top: 1rem;">Lessons</div>
-                {% endif %}
-                {% for src_context in series_context %}
-                <li class="sidebar-menu-item {% if request.path == student_dashboard_url %}active{% endif %}">
-                    <a class="sidebar-menu-button" href="#">
-                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">menu_book</span>
-                        <span class="sidebar-menu-text">{{ src_context.title }}</span>
-                    </a>
-                </li>
-                {% endfor %}
+                <!--{% if series_context %}-->
+                <!--<div class="sidebar-heading" style="padding-top: 1rem;">Lessons</div>-->
+                <!--{% endif %}-->
+                <!--{% for src_context in series_context %}-->
+                <!--<li class="sidebar-menu-item {% if request.path == student_dashboard_url %}active{% endif %}">-->
+                    <!--<a class="sidebar-menu-button" href="#">-->
+                        <!--<span class="material-icons sidebar-menu-icon sidebar-menu-icon&#45;&#45;left">menu_book</span>-->
+                        <!--<span class="sidebar-menu-text">{{ src_context.title }}</span>-->
+                    <!--</a>-->
+                <!--</li>-->
+                <!--{% endfor %}-->
             </ul>
         </div>
     </div>

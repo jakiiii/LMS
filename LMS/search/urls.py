@@ -5,7 +5,10 @@ from .views import (
     AdministratorSeriesSearchView,
     AdministratorEpisodeSearchView,
     AdministratorProfessorSearchView,
-    AdministratorStudentSearchView
+    AdministratorStudentSearchView,
+
+    StudentMyLessonSearchView,
+    ProfessorListSearchView,
 )
 
 
@@ -15,4 +18,7 @@ urlpatterns = [
     path('instructor/manage/episode/search/', AdministratorEpisodeSearchView.as_view(), name='episode-search-query'),
     path('instructor/manage/search/', AdministratorProfessorSearchView.as_view(), name='professor-series-query'),
     path('instructor/manage/student/search/', AdministratorStudentSearchView.as_view(), name='student-search-query'),
+    path('student/lessons/search/', StudentMyLessonSearchView.as_view(), name='mylesson-search-query'),
+
+    path('search/professor/', ProfessorListSearchView.as_view(), name='professor-search'),
 ]

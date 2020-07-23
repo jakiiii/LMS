@@ -1,5 +1,6 @@
 from decimal import Decimal
 from django.db import models
+from django.db.models import Q
 from django.utils import timezone
 from django.db.models.signals import pre_save, m2m_changed
 from django.contrib.auth import settings
@@ -74,6 +75,25 @@ pre_save.connect(cart_pre_save_receiver, sender=Cart)
 
 
 # ------ invoice model ---- #
+class InvoiceQuerySet(models.QuerySet):
+    def invoice_episode(self, user):
+        return Invoice.objects.filter(student_id=user)
+
+    def search(self, query):
+        lookup = (Q(episode_id__title__icontains=query) | Q(episode_id__title__iexact=query))
+        return self.filter(lookup).distinct()
+
+
+class InvoiceManager(models.Manager):
+    def get_queryset(self):
+        return InvoiceQuerySet(self.model, using=self._db)
+
+    def invoice_episode(self, user):
+        return self.get_queryset().invoice_episode(user)
+
+    def search(self, query):
+        return self.get_queryset().search(query)
+
 
 class Invoice (models.Model):
     invoice_number = models.BigIntegerField(null=False)
@@ -84,3 +104,8 @@ class Invoice (models.Model):
     grand_total = models.DecimalField(max_digits=50, decimal_places=2, default=0.00)
     student_id = models.ForeignKey(USER, on_delete=models.CASCADE, null=True, blank=True)
     episode_id = models.ForeignKey(Episode, on_delete=models.CASCADE, null=True, blank=True)
+
+    objects = InvoiceManager()
+
+    # def __str__(self):
+    #     return self.invoice_number

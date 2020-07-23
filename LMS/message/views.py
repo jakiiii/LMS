@@ -1,11 +1,12 @@
 from django.shortcuts import render, reverse
+from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
-
+from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView, ListView, CreateView, DetailView, DeleteView
 
-from .forms import MessageBoxCreationForms, AdministrationMessageBoxCreationForms
+from .forms import MessageBoxCreationForms, AdministrationMessageBoxCreationForms, MessageBoxReplayCreationForm
 
-from .models import MessageBox
+from .models import MessageBox, MessageBoxReplay
 
 
 # Create your views here.
@@ -32,7 +33,10 @@ class StudentNewMessageCreateView(LoginRequiredMixin, CreateView):
         return reverse('message-inbox')
 
 
-class StudentInboxMessageListView(LoginRequiredMixin, TemplateView):
+class StudentInboxMessageListView(LoginRequiredMixin, ListView):
+    paginate_by = 10
+    model = MessageBoxReplay
+    context_object_name = 'message_replay_context'
     template_name = 'message/message-inbox-view.html'
 
     def get_context_data(self, *args, **kwargs):
@@ -43,7 +47,38 @@ class StudentInboxMessageListView(LoginRequiredMixin, TemplateView):
         return context
 
 
+class StudentInboxMessageDetailView(LoginRequiredMixin, DetailView):
+    model = MessageBoxReplay
+    template_name = 'message/inbox-message-student-detail-view.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(StudentInboxMessageDetailView, self).get_context_data(*args, **kwargs)
+        context['title'] = '{}'.format(self.get_object().msg)
+        context['student_header'] = 'student-inbox-detail'
+        context['student_navbar'] = 'student-inbox-detail'
+        return context
+
+
+class StudentInboxMessageDeleteView(LoginRequiredMixin, DeleteView):
+    model = MessageBoxReplay
+    template_name = 'message/delete.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(StudentInboxMessageDeleteView, self).get_context_data(**kwargs)
+        context['title'] = 'Delete - {}'.format(self.get_object().msg)
+        context['student_header'] = 'student-inbox-delete'
+        context['student_navbar'] = 'student-inbox-delete'
+        return context
+
+    def get_success_url(self):
+        return reverse('message-inbox')
+
+    def get_login_url(self):
+        return reverse('login')
+
+
 class StudentSentMessageListView(LoginRequiredMixin, ListView):
+    paginate_by = 10
     model = MessageBox
     context_object_name = 'message_context'
     template_name = 'message/message-send-view.html'
@@ -77,7 +112,7 @@ class StudentMessageDeleteView(LoginRequiredMixin, DeleteView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(StudentMessageDeleteView, self).get_context_data(*args, **kwargs)
-        context['title'] = 'Send'
+        context['title'] = 'Delete - {}'.format(self.get_object().msg)
         context['student_header'] = 'student-delete-message'
         context['student_navbar'] = 'student-delete-message'
         return context
@@ -122,15 +157,38 @@ class AdministrationMessageSendListView(LoginRequiredMixin, ListView):
         return MessageBox.objects.filter(user=self.request.user)
 
 
-class AdministrationMessageDetailView(LoginRequiredMixin, DetailView):
-    model = MessageBox
+# class AdministrationMessageDetailView(LoginRequiredMixin, DetailView):
+#     model = MessageBox
+#     template_name = 'message/message-admin-detail-view.html'
+#
+#     def get_context_data(self, *args, **kwargs):
+#         context = super(AdministrationMessageDetailView, self).get_context_data(*args, **kwargs)
+#         context['title'] = '{}'.format(self.get_object().subject)
+#         context['instructor_navbar'] = 'admin-detail-message'
+#         return context
+
+
+@login_required
+def administration_message_detail_view(request, slug):
+    msg_obj = MessageBox.objects.get(slug=slug)
+    title = 'Message Details'  # '{}'.format(msg_obj.get(subject='subject'))
     template_name = 'message/message-admin-detail-view.html'
 
-    def get_context_data(self, *args, **kwargs):
-        context = super(AdministrationMessageDetailView, self).get_context_data(*args, **kwargs)
-        context['title'] = '{}'.format(self.get_object().subject)
-        context['instructor_navbar'] = 'admin-detail-message'
-        return context
+    form = MessageBoxReplayCreationForm(request.POST or None)
+    if form.is_valid():
+        reply = form.cleaned_data.get('reply')
+        user = request.user
+        message = msg_obj
+        MessageBoxReplay.objects.create(user=user, msg=message, reply=reply)
+        return HttpResponseRedirect('/instructor/message/inbox')
+
+    context = {
+        'instructor_navbar': 'admin-detail-message',
+        'title': title,
+        'object': msg_obj,
+        'form': form
+    }
+    return render(request, template_name, context)
 
 
 class AdministrationMessageCreateView(LoginRequiredMixin, CreateView):
@@ -168,3 +226,8 @@ class AdministrationMessageDeleteView(LoginRequiredMixin, DeleteView):
 
     def get_login_url(self):
         return reverse('login')
+
+
+# class MessageReplay(LoginRequiredMixin, CreateView):
+#     form_class = MessageBoxReplayCreationForm
+#     template_name = 'message/message-admin-detail-view.html'

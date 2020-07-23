@@ -1,0 +1,19 @@
+{% extends 'base_instructor.html' %}
+{% load static %}
+{% block title %} {{title}} || {{ block.super }}{% endblock title %}
+
+{% block content %}
+<div class="container page__container page-section adminpanel-width" style="padding-top: 8rem;">
+    <div>
+        <div class="card col col-md-8">
+            <div class="card-header">
+                <h3>{{ object.msg }}</h3>
+            </div>
+            <div class="card-body">
+                <p class="card-text">{{object.reply}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

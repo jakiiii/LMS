@@ -12,6 +12,10 @@ User = settings.AUTH_USER_MODEL
 Student = settings.AUTH_USER_MODEL
 
 
+class MessageBoxQuerySet(models.QuerySet):
+    pass
+
+
 class MessageBoxManager(models.Model):
     pass
 
@@ -25,6 +29,7 @@ class MessageBox(models.Model):
     body = models.TextField()
     datetime = models.DateTimeField(auto_now_add=timezone.now)
     update = models.DateTimeField(auto_now=timezone.now)
+    active = models.BooleanField(default=True, null=True)
     slug = models.SlugField(unique=True, blank=True)
 
     objects = MessageBoxManager()
@@ -60,3 +65,32 @@ def message_pre_save_receiver(sender, instance, *args, **kwargs):
 
 
 pre_save.connect(message_pre_save_receiver, sender=MessageBox)
+
+
+class MessageBoxReplay(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    msg = models.ForeignKey(MessageBox, on_delete=models.CASCADE)
+    reply = models.TextField()
+    datetime = models.DateTimeField(auto_now_add=timezone.now)
+    slug = models.SlugField(blank=True, unique=True)
+
+    def __str__(self):
+        return self.reply[:25]
+
+    @property
+    def title(self):
+        return self.reply[:50]
+
+    def get_absolute_replay_url(self):
+        return reverse('student-inbox-detail', kwargs={"slug": self.slug})
+
+    def get_absolute_replay_delete_url(self):
+        return reverse('student-inbox-delete', kwargs={"slug": self.slug})
+
+
+def replay_pre_save_receiver(sender, instance, *args, **kwargs):
+    if not instance.slug:
+        instance.slug = unique_slug_generator(instance)
+
+
+pre_save.connect(replay_pre_save_receiver, sender=MessageBoxReplay)

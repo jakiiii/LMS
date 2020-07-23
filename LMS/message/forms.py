@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import MessageBox
+from .models import MessageBox, MessageBoxReplay
 
 
 class MessageBoxCreationForms(forms.ModelForm):
@@ -28,4 +28,15 @@ class AdministrationMessageBoxCreationForms(forms.ModelForm):
             'user': 'Student',
             'subject': 'Subject',
             'body': 'Body'
+        }
+
+
+class MessageBoxReplayCreationForm(forms.ModelForm):
+    class Meta:
+        model = MessageBoxReplay
+        fields = [
+            'reply'
+        ]
+        labels = {
+            'reply': 'Reply'
         }

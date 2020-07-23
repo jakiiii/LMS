@@ -94,7 +94,10 @@
                                <p style="padding: 0 1.5rem;"><small class="text-muted">{{ l_context.description }}</small></p>
 
                                {% for ep_context in episode_context %}
-                                   {% if l_context == ep_context.series_of %}
+                               {% if l_context == ep_context.series_of %}
+                               {# {% for invoice in invoice_context %} #}
+                               {# {% if ep_context.id == invoice.episode_id.id %} #}
+
                                <div class="accordion__menu collapse" id="course-toc-{{l_context.id}}" onload="expandEpisods()">
                                    <script type="text/javascript">
                                        var expandeddiv = document.getElementById("course-toc-1");
@@ -122,7 +125,7 @@
                                            <i class="material-icons notranslate color-red icon--left">lock</i>
 
                                            <!-- Episode Cart -->
-                                            {% include 'courses/snippets/update_cart.html' with episode=ep_context cart=cart %}
+                                            {% include 'courses/snippets/update_cart.html' with invoice_context=invoice_context episode=ep_context cart=cart %}
                                             <!-- /End Episode Cart -->
 
                                        {% endif %}
@@ -132,7 +135,10 @@
                                        <span class="text-black-70"><a class="btn btn-sm btn-default color-blue " href="{{ ep_context.episode_instructor.get_absolute_url }}">by {{ep_context.episode_instructor}}</a></span>
                                    </div>
                                </div>
-                                   {% endif %}
+
+                               {# {% endif %} #}
+                               {# {% endfor %} #}
+                               {% endif %}
                                {% endfor %}
                            </div>
                            {% endfor %}

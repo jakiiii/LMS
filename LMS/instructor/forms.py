@@ -203,7 +203,7 @@ class LessonsCreationForm(forms.ModelForm):
         model = Lessons
         fields = [
             'course_of',
-            # 'lesson_title',
+            'lesson_title',
             'description',
             # 'lessons_video',
             # 'lessons_video_duration',
@@ -214,7 +214,7 @@ class LessonsCreationForm(forms.ModelForm):
         ]
         labels = {
             'course_of': 'Lesson Of',
-            # 'lesson_title': 'Series Title',
+            'lesson_title': 'Series Title',
             'description': 'Description',
             # 'lessons_video': 'Series Video',
             # 'lessons_video_duration': 'Series Video Duration',

@@ -24,8 +24,8 @@ class HomeListView(ListView):
         context['banner_info'] = 'index'
         # context['footer'] = 'index'
         context['header_context'] = Header.objects.all()[:1]
-        context['cover_images'] = CoverImage.objects.all()[:1]
-        context['cover_info'] = Cover.objects.all()[:1]
+        context['cover_images'] = CoverImage.objects.all()[:10]
+        context['cover_info'] = Cover.objects.all()[:10]
         # context['footer_context'] = Footer.objects.all()[:1]
         context['learning_path'] = Subcategory.objects.annotate(course_count=Count('subcategory'))[:9]
         context['blog_context'] = Blog.objects.all()[:3]
@@ -34,7 +34,7 @@ class HomeListView(ListView):
 
 
 class ProfessorListView(ListView):
-    paginate_by = 10
+    paginate_by = 8
     model = Instructor
     context_object_name = 'professor_context'
     template_name = 'home/professor_all_view.html'
@@ -60,12 +60,3 @@ class ProfessorDetailView(DetailView):
         context['featured_lessons'] = Courses.objects.all().featured()[:4]
         context['header_context'] = Header.objects.all()[:1]
         return context
-
-
-# class StudentLearningCourse(TemplateView):
-#     template_name = 'home/student_learning.html'
-#
-#     def get_context_data(self, *args, **kwargs):
-#         context = super().get_context_data(*args, **kwargs)
-#         context['title'] = 'Learning Course'
-#         return context

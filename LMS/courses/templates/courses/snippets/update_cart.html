@@ -1,14 +1,21 @@
 <form class="form-lesson-ajax" method="POST" action="{% url 'episode-cart-update' %}" data-endpoint="{% url 'episode-cart-update' %}">{% csrf_token %}
     <input type="hidden" name="episode" value="{{ episode.id }}"/>
     <span class="submit-span">
+        {# {% for invoice in invoice_context %} #}
+        {# {% if ep_context.id == invoice.episode_id.id %} #}
         {% if episode in cart.episode.all %}
-        <button type="submit" style="background: #fff; border: none; margin: -10px;"><i class="material-icons notranslate color-red icon--left">remove_shopping_cart</i></button>
+        <button type="submit" style="background: #fff; border: none; margin: -10px;">
+            <i class="material-icons notranslate color-red icon--left">remove_shopping_cart</i>
+        </button>
         {% else %}
-        <button type="submit" style="background: #fff; border: none; margin: -10px;"><i class="material-icons notranslate color-red icon--left">shopping_cart</i></button>
+        <button type="submit" style="background: #fff; border: none; margin: -10px;">
+            <i class="material-icons notranslate color-red icon--left">shopping_cart</i>
+        </button>
         {% endif %}
+        {# {% endif %} #}
+        {# {% endfor %} #}
     </span>
 </form>
-
 
 
 <!--<form class="form-lesson-ajax" method="POST" action="{% url 'episode-cart-update' %}" data-endpoint="{% url 'episode-cart-update' %}">{% csrf_token %}-->

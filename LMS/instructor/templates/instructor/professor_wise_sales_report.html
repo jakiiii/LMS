@@ -10,7 +10,7 @@
                     <ol class="breadcrumb p-0 m-0">
                         <li class="breadcrumb-item"><a href="{% url 'instructor-dashboard' %}">Report</a></li>
                         <li class="breadcrumb-item active">
-                            Sales
+                            Professor wise video sales report
                         </li>
                     </ol>
                 </div>
@@ -22,7 +22,7 @@
 
     <div class="container page__container page-section adminpanel-width table-min-height">
         <div class="page-separator">
-            <div class="page-separator__text">Report</div>
+            <div class="page-separator__text">Professors</div>
         </div>
 
         <div class="card mb-0">
@@ -45,14 +45,12 @@
                     <tr>
                         <th style="width: 18px;" class="pr-0"> #SL</th>
 
-                        <th>
-                            <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-name">Date</a>
-                        </th>
+
                         <th>
                             Professor Name
                         </th>
                         <th>
-                            Total Episode Sell
+                            Total Episode Count
                         </th>
                         <th>
                             Price
@@ -70,35 +68,33 @@
 
                     </thead>
                     <tbody class="list" id="contacts">
-                    {% for item in courses %}
+                    {% for item in data %}
                         <tr class="selected btn-white ">
                             <td class="pr-0">
                                 <p class="btn">{{ forloop.counter }}</p>
                             </td>
 
                             <td>
-                                <p>{{item.lesson_of__category__category}}</p>
+                                <p>{{item.episode_id__episode_instructor__first_name}} {{item.episode_id__episode_instructor__last_name}}</p>
                             </td>
 
                             <td>
-                                <p>{{item.lesson_of__subcategory__subcategory}}</p>
+                                <p>{{item.total_episode}}</p>
                             </td>
 
                             <td>
-                               <img src="/media/{{ item.episode_instructor__image }}" alt="Avatar" class="avatar-img rounded-circle">
-                            </td>
-                            <td >
-                                <p class="wrap-text">{{ item.episode_instructor__first_name }} {{ item.episode_instructor__last_name }}</p>
+                                <p>${{item.price_sum}}</p>
                             </td>
                             <td>
-                                <p>{{item.episode_instructor__email}}</p>
+                                <p>{{item.vat}}%</p>
                             </td>
                             <td>
-                                <p >{{ item.episode_instructor__phone }}</p>
+                                <p>0</p>
                             </td>
                             <td>
-                                <p>{{ item.total_episodes }}</p>
+                                <p >${{ item.total_price_adding_vat }}</p>
                             </td>
+
 
                         </tr>
                     {% endfor %}

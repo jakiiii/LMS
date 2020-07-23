@@ -1,3 +1,4 @@
+import itertools
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Sum
@@ -21,6 +22,12 @@ class CoursesListView(ListView):
 
     def subscription(self):
         pass
+
+    def get_queryset(self):
+        filtering = self.request.GET.get('filtering', None)
+        if filtering == 'Newest':
+            return Courses.objects.all().order_by('-created_at')
+        return Courses.objects.all().order_by('created_at')
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -47,8 +54,8 @@ class CourseDetailsView(ObjectViewedMixin, DetailView):
         context['related_instructor_post'] = Courses.objects.filter(instructor_id=self.object.instructor_id).exclude(id=self.object.id)[:4]
         context['featured_post'] = Courses.objects.all().exclude(id=self.object.id).featured()[:4]
         context['header_context'] = Header.objects.all()[:1]
-        if self.request.user.is_authenticated:
-            context['invoice_context'] = Invoice.objects.all().filter(student_id=self.request.user)
+        # if self.request.user.is_authenticated:
+        context['invoice_context'] = Invoice.objects.filter(student_id=self.request.user)
         return context
 
 

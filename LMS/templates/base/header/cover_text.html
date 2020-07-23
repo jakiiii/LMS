@@ -2,32 +2,45 @@
 {% url 'courses' as courses_url %}
 
 {% if banner_image %}
-    <div class="hero container page__container text-center text-md-left py-112pt">
-        <div class="slider_signup"
-             style="background: white;
-    opacity: 0.8;
-    padding: 30px;
-    margin: 0 auto;
-    max-width: 600px;
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
-    content: '';
-    text-align: center;
-    border-radius: 13px;
-    -webkit-box-shadow: 0px -2px 31px -9px rgba(0,0,0,0.75);
-    -moz-box-shadow: 0px -2px 31px -9px rgba(0,0,0,0.75);
-    box-shadow: 0px -2px 31px -9px rgba(0,0,0,0.75);"
-        >
+<div id="carousel-example-1z" class="carousel slide carousel-fade" data-ride="carousel">
+
+    <div class="carousel-inner" role="listbox">
         {% for c_info in cover_info %}
-            {% if request.user.is_authenticated %}
-                <h1 class="text-black text-shadow">{{ c_info.cover_title_authenticated }}</h1>
-                <p class="mx-auto mx-md-0 text-black text-shadow mb-20pt">{{ c_info.cover_text_authenticated }}</p>
-                <a href="{{ courses_url }}" class="btn btn-md btn-accent btn--raised mb-16pt">{{ c_info.url_btn_authenticated }}</a>
-            {% else %}
-                <h1 class="text-black text-shadow">{{ c_info.cover_title_not_authenticated }}</h1>
-                <p class="mx-auto mx-md-0 text-black text-shadow mb-20pt">{{ c_info.cover_text_not_authenticated }}</p>
-                <a href="{{ register_url }}" class="btn btn-md btn-accent btn--raised mb-16pt">{{ c_info.url_btn_not_authenticated }}</a>
-            {% endif %}
-        {% endfor %}
+
+        <div class="carousel-item {% if forloop.first %} active {% endif %}">
+
+            <img class="d-block w-100" src="{{ c_info.image.url }}" alt="Third slide">
+            <div class="carousel-caption text-dark bg-banner">
+                {% if request.user.is_authenticated %}
+                <div>
+                    <h1 class="text-black text-shadow">{{ c_info.cover_title_authenticated }}</h1>
+                    <p class="mx-auto mx-md-0 text-black text-shadow mb-20pt">{{ c_info.cover_text_authenticated }}</p>
+                    <a href="{{ courses_url }}" class="btn btn-md btn-accent btn--raised mb-16pt">{{ c_info.url_btn_authenticated }}</a>
+                </div>
+                {% else %}
+                <div>
+                    <h1 class="text-black text-shadow">{{ c_info.cover_title_not_authenticated }}</h1>
+                    <p class="mx-auto mx-md-0 text-black text-shadow mb-20pt">{{ c_info.cover_text_not_authenticated }}</p>
+                    <a href="{{ register_url }}" class="btn btn-md btn-accent btn--raised mb-16pt">{{ c_info.url_btn_not_authenticated }}</a>
+                </div>
+                {% endif %}
+            </div>
         </div>
+        {% endfor %}
     </div>
+
+    <a class="carousel-control-prev" href="#carousel-example-1z" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carousel-example-1z" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+
+</div>
 {% endif %}

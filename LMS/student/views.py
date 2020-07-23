@@ -14,8 +14,6 @@ from carts.models import Cart
 from orders.models import Order
 
 
-
-
 # Create your views here.
 # class StudentDashboardView(TemplateView, LoginRequiredMixin):
 #     template_name = 'student/student_dashboard.html'
@@ -31,6 +29,12 @@ class StudentDashboardView(LoginRequiredMixin, ListView):
     model = Courses
     context_object_name = 'courses_context'
     template_name = 'student/student_browse_lesson_view.html'
+
+    def get_queryset(self):
+        filtering = self.request.GET.get('filtering', None)
+        if filtering == 'Newest':
+            return Courses.objects.all().order_by('-created_at')
+        return Courses.objects.all().order_by('created_at')
 
     def get_context_data(self, *args, **kwargs):
         context = super(StudentDashboardView, self).get_context_data(*args, **kwargs)
@@ -88,6 +92,7 @@ class StudentInfoUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class MyLessonsListView(LoginRequiredMixin, ListView):
+    paginate_by = 10
     model = Invoice
     context_object_name = 'invoice_lesson_context'
     template_name = 'student/my_lesson_view.html'
@@ -97,22 +102,17 @@ class MyLessonsListView(LoginRequiredMixin, ListView):
         context['title'] = 'My Lessons'
         context['student_header'] = 'student-lessons'
         context['student_navbar'] = 'student-lessons'
+        context['lesson_context'] = Courses.objects.all()
+        context['series_context'] = Lessons.objects.all()
         return context
 
     def get_queryset(self):
         return Invoice.objects.filter(student_id=self.request.user)
 
-# @login_required
-# def episode_cart_home(request):
-#     cart_obj, new_obj = Cart.objects.new_or_get(request)
-#     template_name = 'student/my_lesson_view.html'
-#     context = {
-#         "cart": cart_obj,
-#         "title": 'Cart',
-#         "student_header": 'student-lessons',
-#         "student_navbar": 'student-lessons'
-#     }
-#     return render(request, template_name, context)
+
+'''
+------------------------ START INVOICE SECTION --------------------------
+'''
 
 
 @login_required

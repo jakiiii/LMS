@@ -10,7 +10,7 @@
                     <ol class="breadcrumb p-0 m-0">
                         <li class="breadcrumb-item"><a href="{% url 'instructor-dashboard' %}">Report</a></li>
                         <li class="breadcrumb-item active">
-                            Sales Report
+                            Series wise video sales report
                         </li>
                     </ol>
                 </div>
@@ -45,9 +45,7 @@
                     <tr>
                         <th style="width: 18px;" class="pr-0"> #SL</th>
 
-                        <th>
-                            <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-name">Date</a>
-                        </th>
+
                         <th>
                             Series Name
                         </th>
@@ -70,35 +68,33 @@
 
                     </thead>
                     <tbody class="list" id="contacts">
-                    {% for item in courses %}
+                    {% for item in data %}
                         <tr class="selected btn-white ">
                             <td class="pr-0">
                                 <p class="btn">{{ forloop.counter }}</p>
                             </td>
 
                             <td>
-                                <p>{{item.lesson_of__category__category}}</p>
+                                <p>{{item.episode_id__series_of__lesson_title}}</p>
                             </td>
 
                             <td>
-                                <p>{{item.lesson_of__subcategory__subcategory}}</p>
+                                <p>{{item.total_episode}}</p>
                             </td>
 
                             <td>
-                               <img src="/media/{{ item.episode_instructor__image }}" alt="Avatar" class="avatar-img rounded-circle">
-                            </td>
-                            <td >
-                                <p class="wrap-text">{{ item.episode_instructor__first_name }} {{ item.episode_instructor__last_name }}</p>
+                                <p>${{item.price_sum}}</p>
                             </td>
                             <td>
-                                <p>{{item.episode_instructor__email}}</p>
+                                <p>{{item.vat}}%</p>
                             </td>
                             <td>
-                                <p >{{ item.episode_instructor__phone }}</p>
+                                <p>0</p>
                             </td>
                             <td>
-                                <p>{{ item.total_episodes }}</p>
+                                <p >${{ item.total_price_adding_vat }}</p>
                             </td>
+
 
                         </tr>
                     {% endfor %}

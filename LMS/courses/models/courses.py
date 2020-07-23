@@ -93,8 +93,8 @@ class Courses(models.Model):
 
     objects = CoursesManager()
 
-    class Meta:
-        ordering = ['created_at']
+    # class Meta:
+    #     ordering = ['-created_at']
 
     def __str__(self):
         return self.title

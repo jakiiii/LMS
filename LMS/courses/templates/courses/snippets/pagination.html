@@ -3,7 +3,7 @@
     <ul class="pagination justify-content-start pagination-xsm m-0">
         <li class="page-item">
             {% if page_obj.has_previous %}
-            <a class="page-link" href="/courses/?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+            <a class="page-link" href="{% url 'courses' %}?page={{ page_obj.previous_page_number }}" aria-label="Previous">
                 <span aria-hidden="true" class="material-icons notranslate">chevron_left</span>
                 <span>Prev</span>
             </a>
@@ -17,7 +17,7 @@
         </li>
         <li class="page-item">
             {% if page_obj.has_next %}
-            <a class="page-link" href="/courses/?page={{ page_obj.next_page_number }}" aria-label="Next">
+            <a class="page-link" href="{% url 'courses' %}?page={{ page_obj.next_page_number }}" aria-label="Next">
                 <span>Next</span>
                 <span aria-hidden="true" class="material-icons notranslate">chevron_right</span>
             </a>
